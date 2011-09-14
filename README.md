@@ -14,9 +14,9 @@ Running the given file:
 
 ```ruby
 
-require 'opaltest/autorun'
+require 'test/unit'
 
-class Testing < OpalTest::Unit::TestCase
+class Testing < Test::Unit::TestCase
 
   def test_some_passing_method
     assert 1 == 1
