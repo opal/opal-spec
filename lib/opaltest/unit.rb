@@ -152,19 +152,19 @@ module OpalTest
       end
 
       def self.reset
-        @test_suites = {}
+        @@test_suites = {}
       end
 
       reset
 
       def self.inherited(klass)
-        @test_suites[klass] = true
+        @@test_suites[klass] = true
         klass.reset_setup_teardown_hooks
         super
       end
 
       def self.test_suites
-        @test_suites.keys
+        @@test_suites.keys
       end
 
       def self.test_methods

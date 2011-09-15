@@ -41,3 +41,37 @@ Failed assertion, no message given.
 
 ```
 
+Spec Mode
+---------
+
+Spec mode is also partially supported, so running:
+
+```ruby
+require 'opaltest/spec'
+require 'opaltest/autorun'
+
+describe "SomeTestingClass" do
+
+  it "should misbehave" do
+    true.must_equal false
+  end
+
+  it "should behave" do
+    true.must_equal true
+  end
+end
+```
+
+Should yield:
+
+```
+F
+.
+
+1) Failure:
+test_1_should_misbehave(AnonClass):
+Expected: true, Actual: false
+
+2 tests, 2 assertions, 1 failures, 0 errors, 0 skips
+```
+
