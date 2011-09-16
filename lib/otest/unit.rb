@@ -1,4 +1,4 @@
-module OpalTest
+module OTest
 
   class Assertion < Exception; end
 
@@ -19,7 +19,7 @@ module OpalTest
       self._assertions += 1
       unless test
         msg = msg.call if Proc === msg
-        raise OpalTest::Assertion, msg
+        raise OTest::Assertion, msg
       end
     end
 
@@ -40,7 +40,7 @@ module OpalTest
 
     def self.autorun
       at_exit do
-        OpalTest::Unit.new.run ARGV
+        OTest::Unit.new.run ARGV
       end
     end
 
@@ -84,10 +84,10 @@ module OpalTest
 
     def puke(klass, meth, e)
       e = case e
-          when OpalTest::Skip
+          when OTest::Skip
             @skips += 1
             return "S"
-          when OpalTest::Assertion
+          when OTest::Assertion
             @failures += 1
             "Failure:\n#{meth}(#{klass}):\n#{e.message}\n"
           else
@@ -190,9 +190,9 @@ module OpalTest
         # FIXME
       end
 
-      include OpalTest::Assertions
+      include OTest::Assertions
 
     end # TestCase
   end # Unit
-end # OpalTest
+end # OTest
 

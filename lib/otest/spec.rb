@@ -1,4 +1,4 @@
-require 'opaltest/unit'
+require 'otest/unit'
 
 class Module
 
@@ -12,12 +12,12 @@ end
 module Kernel
 
   def describe(desc, additional_desc = nil, &block)
-    stack = OpalTest::Spec.describe_stack
+    stack = OTest::Spec.describe_stack
     name = [stack.last, desc, additional_desc].compact.join("::")
-    sclas = stack.last || (if Class === self && self.is_a?(OpalTest::Spec)
+    sclas = stack.last || (if Class === self && self.is_a?(OTest::Spec)
                             self
                           else
-                            OpalTest::Spec.spec_type desc
+                            OTest::Spec.spec_type desc
                           end)
 
     cls = sclas.create name, desc
@@ -29,10 +29,10 @@ module Kernel
   end
 end
 
-class OpalTest::Spec < OpalTest::Unit::TestCase
+class OTest::Spec < OTest::Unit::TestCase
 
   def self.spec_type(desc)
-    OpalTest::Spec
+    OTest::Spec
   end
 
   @describe_stack = []
@@ -77,12 +77,12 @@ class OpalTest::Spec < OpalTest::Unit::TestCase
 
 end
 
-module OpalTest::Exceptions
+module OTest::Exceptions
 
   infect_an_assertion :assert_equal, :must_equal
 end
 
 class Object
-  include OpalTest::Exceptions
+  include OTest::Exceptions
 end
 

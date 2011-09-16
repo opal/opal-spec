@@ -1,11 +1,11 @@
-Opaltest
-========
+OTest
+=====
 
-Opaltest is a port of MiniTest from ruby1.9 which allows for
+Otest is a port of MiniTest from ruby1.9 which allows for
 compatibility with both opal and opalscript. The runner will also be
 configured to output to the DOM when running in the browser. The API is
 mostly compatible, with the main exception of the top level module being
-called `OpalTest`.
+called `OTest`.
 
 Simple Unit Test example
 ------------------------
@@ -47,8 +47,8 @@ Spec Mode
 Spec mode is also partially supported, so running:
 
 ```ruby
-require 'opaltest/spec'
-require 'opaltest/autorun'
+require 'otest/spec'
+require 'otest/autorun'
 
 describe "SomeTestingClass" do
 

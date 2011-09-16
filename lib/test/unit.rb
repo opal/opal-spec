@@ -1,6 +1,6 @@
-# Test::Unit compatibility for OpalTest (like MiniTest does)
+# Test::Unit compatibility for OTest (like MiniTest does)
 
-require 'opaltest/autorun'
+require 'otest/autorun'
 
-Test = OpalTest
+Test = OTest
 
