@@ -1,4 +1,4 @@
-require 'otest/unit'
+require 'minitest/unit'
 
 class Module
 
@@ -12,12 +12,12 @@ end
 module Kernel
 
   def describe(desc, additional_desc = nil, &block)
-    stack = OTest::Spec.describe_stack
+    stack = MiniTest::Spec.describe_stack
     name = [stack.last, desc, additional_desc].compact.join("::")
-    sclas = stack.last || (if Class === self && self.is_a?(OTest::Spec)
+    sclas = stack.last || (if Class === self && self.is_a?(MiniTest::Spec)
                             self
                           else
-                            OTest::Spec.spec_type desc
+                            MiniTest::Spec.spec_type desc
                           end)
 
     cls = sclas.create name, desc
@@ -29,10 +29,10 @@ module Kernel
   end
 end
 
-class OTest::Spec < OTest::Unit::TestCase
+class MiniTest::Spec < MiniTest::Unit::TestCase
 
   def self.spec_type(desc)
-    OTest::Spec
+    MiniTest::Spec
   end
 
   @describe_stack = []
@@ -77,12 +77,12 @@ class OTest::Spec < OTest::Unit::TestCase
 
 end
 
-module OTest::Exceptions
+module MiniTest::Exceptions
 
   infect_an_assertion :assert_equal, :must_equal
 end
 
 class Object
-  include OTest::Exceptions
+  include MiniTest::Exceptions
 end
 

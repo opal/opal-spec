@@ -1,4 +1,4 @@
-module OTest
+module MiniTest
 
   class Assertion < Exception; end
 
@@ -19,7 +19,7 @@ module OTest
       self._assertions += 1
       unless test
         msg = msg.call if Proc === msg
-        raise OTest::Assertion, msg
+        raise MiniTest::Assertion, msg
       end
     end
 
@@ -40,7 +40,7 @@ module OTest
 
     def self.autorun
       at_exit do
-        OTest::Unit.new.run ARGV
+        MiniTest::Unit.new.run ARGV
       end
     end
 
@@ -84,10 +84,10 @@ module OTest
 
     def puke(klass, meth, e)
       e = case e
-          when OTest::Skip
+          when MiniTest::Skip
             @skips += 1
             return "S"
-          when OTest::Assertion
+          when MiniTest::Assertion
             @failures += 1
             "Failure:\n#{meth}(#{klass}):\n#{e.message}\n"
           else
@@ -190,9 +190,9 @@ module OTest
         # FIXME
       end
 
-      include OTest::Assertions
+      include MiniTest::Assertions
 
     end # TestCase
   end # Unit
-end # OTest
+end # MiniTest
 

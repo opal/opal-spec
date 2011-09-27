@@ -1,9 +1,6 @@
-$:.unshift File.expand_path("../../../../lib/")
-require 'opal/rake/bundle_task'
+require 'opal/bundle_task'
 
-Opal::Rake::BundleTask.new do |bundle|
-  bundle.options = {
-    :method_missing => true
-  }
+Opal::BundleTask.new do |b|
+  b.name = "opal-test"
 end
 
