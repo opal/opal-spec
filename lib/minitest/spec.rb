@@ -3,7 +3,7 @@ require 'minitest/unit'
 class Module
 
   def infect_an_assertion(meth, new_name, dont_flip = false)
-    define_method(new_name) do |*args, &block|
+    define_method(new_name) do |*args|
       @@current_spec.__send__ meth, self, *args
     end
   end
@@ -13,13 +13,15 @@ module Kernel
 
   def describe(desc, additional_desc = nil, &block)
     stack = MiniTest::Spec.describe_stack
-    name = [stack.last, desc, additional_desc].compact.join("::")
+    # name = [stack.last, desc, additional_desc].compact.join("::")
+    name = desc
     sclas = stack.last || (if Class === self && self.is_a?(MiniTest::Spec)
                             self
                           else
                             MiniTest::Spec.spec_type desc
                           end)
 
+    puts sclas.inspect
     cls = sclas.create name, desc
 
     stack.push cls
@@ -73,6 +75,8 @@ class MiniTest::Spec < MiniTest::Unit::TestCase
 
       nuke_test_methods!
     end
+
+    cls
   end
 
 end

@@ -8,6 +8,7 @@ module MiniTest
 
     def _assertions=(n)
       @_assertions = n
+      n
     end
 
     def _assertions
@@ -71,7 +72,6 @@ module MiniTest
       assertions = suite.test_methods.map do |method|
         inst = suite.new method
         inst._assertions = 0
-
         result = inst.run self
 
         puts result
@@ -137,7 +137,6 @@ module MiniTest
             result = runner.puke self.class, self.__name__, e
           end
         end
-
         result
       end
 
