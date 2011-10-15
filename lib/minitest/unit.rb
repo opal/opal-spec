@@ -1,8 +1,44 @@
+require 'optparse'
+require 'rbconfig'
+
+##
+# Minimal (mostly drop-in) replacement for test-unit.
+#
+# :include: README.txt
+
 module MiniTest
+
+  ##
+  # Assertion base class
 
   class Assertion < Exception; end
 
+  ##
+  # Assertion raised when skipping a test
+
   class Skip < Assertion; end
+
+  file = if RUBY_VERSION =~ /^1\.9/ then  # bt's expanded, but __FILE__ isn't :(
+           File.expand_path __FILE__
+          elsif __FILE__ =~ /^[^\.]/ then # assume both relative
+            require 'pathname'
+            pwd = Pathname.new Dir.pwd
+            pn = Pathname.new File.expand_path(__FILE__)
+            relpath = pn.relative_path_from(pwd) rescue pn
+            pn = File.join ".", relpath unless pn.relative?
+            pn.to_s
+          else                            # assume both are expanded
+            __FILE__
+          end
+
+  # './lib' in project dir, or '/usr/local/blahblah' if installed
+  MINI_DIR = File.dirname(File.dirname(file)) # :nodoc:
+
+  def self.filter_backtrace bt # :nodoc:
+    return ["No backtrace"] unless bt
+
+    new_bt = []
+  end
 
   module Assertions
 
@@ -18,15 +54,51 @@ module MiniTest
     def assert(test, msg = nil)
       msg ||= "Failed assertion, no message given."
       self._assertions += 1
-      unless test
+      unless test then
         msg = msg.call if Proc === msg
         raise MiniTest::Assertion, msg
       end
+      true
     end
 
     def assert_equal(exp, act, msg = nil)
-      msg ||= proc { "Expected: #{exp.inspect}, Actual: #{act.inspect}" }
+      msg = message(msg, "") {
+        "Expected #{exp.inspect}, Actual: #{act.inspect}"
+      }
       assert(exp == act, msg)
+    end
+
+    def assert_instance_of(cls, obj, msg = nil)
+      msg = message(msg) {
+        "Expected #{obj.inspect} to be an instance of #{cls}, not #{obj.class}"
+      }
+
+      assert obj.instance_of?(cls), msg
+    end
+
+    def assert_kind_of(cls, obj, msg = nil)
+      msg = message(msg) {
+        "Expected #{obj.inspect} to be a kind of #{cls}, not #{obj.class}"
+      }
+
+      assert obj.kind_of?(cls), msg
+    end
+
+    def assert_nil(obj, msg = nil)
+      msg = message(msg) { "Expected #{obj.inspect} to be nil" }
+      assert obj.nil?, msg
+    end
+
+    def message(msg = nil, ending = ".", &default_)
+      proc {
+        custom_message = "#{msg}.\n" unless msg.nil? or msg.to_s.empty?
+        "#{custom_message}#{default_.call}#{ending}"
+      }
+    end
+
+    def refute(test, msg = nil)
+      msg ||= "Failed refutation, no message given"
+      not assert(! test, msg)
     end
   end
 
@@ -39,29 +111,42 @@ module MiniTest
     attr_accessor :verbose
     attr_writer   :options
 
+    @@installed_at_exit ||= false
+
+    ##
+    # Registers MiniTest::Unit to run tests at process exit
+
     def self.autorun
-      at_exit do
-        MiniTest::Unit.new.run ARGV
-      end
+      at_exit {
+        next if $! # don't run if there was an exception
+
+        # The order here is important. The at_exit handler must be
+        # installed before anyone else gets a chance to install their
+        # own, that way we can be assured that our exit will be last
+        # to run (at_exit stacks).
+        exit_code = nil
+
+        at_exit { exit false if exit_code && exit_code != 0 }
+
+        exit_code = MiniTest::Unit.new.run ARGV
+      } unless @@installed_at_exit
+      @@installed_at_exit = true
     end
 
-    def run(args = [])
-      suites = TestCase.test_suites
+    ##
+    # Tells MiniTest::Unit to delegate to +runner+, an instance of a
+    # MiniTest::Unit subclass, when MiniTest::Unit#run is called.
 
-      @test_count = 0
-      @assertion_count = 0
+    def self.runner= runner
+      @@runner = runner
+    end
 
-      results = run_suites suites
+    ##
+    # Returns the MiniTest::Unit subclass instance that will be used
+    # to run the tests. A MiniTest::Unit instance is the default
 
-      @test_count      = results.inject(0) { |sum, tc| sum + tc[0] }
-      @assertion_count = results.inject(0) { |sum, ac| sum + ac[1] }
-
-      @report.each_with_index do |msg, i|
-        puts "\n#{i + 1}) #{msg}"
-      end
-
-      puts ""
-      status
+    def self.runner
+      @@runner ||= self.new
     end
 
     def run_suites(suites)
@@ -98,10 +183,28 @@ module MiniTest
       e[0, 1]
     end
 
-    def initialize
+    def initialize # :nodoc:
       @report = []
       @errors = @failures = @skips = 0
       @verbose = false
+    end
+
+    def process_args args = []
+      args
+    end
+
+    ##
+    # Begins the full test run. Delagates to +runner+'s run method.
+
+    def run args = []
+      self.class.runner._run(args)
+    end
+
+    ##
+    # Top level driver, controls all output and filtering.
+
+    def _run args = []
+      self.options = process_args args
     end
 
     def status

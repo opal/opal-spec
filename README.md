@@ -1,6 +1,12 @@
-opal-test
+opaltest
 =========
 
+opaltest is a wrapper around MiniTest to allow MiniTest to run in opal.
+Eventually this wrapper will not be required once opal can run enough
+ruby syntax so that MiniTest works without modification.
+
+opaltest does also contain mspec style matchers which will remain even
+after the minitest compatibility code is removed.
 opal-test is a port of MiniTest from ruby1.9 which allows for
 compatibility with both opal and opalscript. The runner will also be
 configured to output to the DOM when running in the browser. The API is
@@ -17,7 +23,7 @@ Simple Unit Test example
 Running the given file:
 
 ```ruby
-require 'minitest/unit'
+require 'opaltest/unit'
 
 class Testing < MiniTest::Unit::TestCase
 
@@ -48,8 +54,8 @@ Spec Mode
 Spec mode is also partially supported, so running:
 
 ```ruby
-require 'minitest/spec'
-require 'minitest/autorun'
+require 'opaltest/spec'
+require 'opaltest/autorun'
 
 describe "SomeTestingClass" do
 
@@ -75,17 +81,4 @@ Expected: true, Actual: false
 
 2 tests, 2 assertions, 1 failures, 0 errors, 0 skips
 ```
-
-Rationale
----------
-
-MiniTest contains some parts that make it difficult, although not
-impossible, to get running inside opal. It also contains various extra
-requirements like an opt-parser that are overkill for small tests to run
-inside the browser.
-
-One day opal might just use MiniTest, but for now a clone/port is more
-maintainable and easier to get working inside a browser. Also, it allows
-us to customize it to make use of the DOM to print out failures in a
-nicer way (yay, css gradients!).
 
