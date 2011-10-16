@@ -314,6 +314,9 @@ module MiniTest
 
       puts "Run options: #{help}"
 
+      # FIXME: remove this
+      @test_count = 0
+
       self.class.plugins.each do |plugin|
         send plugin
         # FIXME:

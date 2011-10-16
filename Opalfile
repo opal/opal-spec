@@ -1,0 +1,3 @@
+Opal::Bundle.new do |b|
+  b.stdlib = ['rbconfig', 'optparse']
+end
