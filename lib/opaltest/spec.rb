@@ -1,32 +1,79 @@
 require 'opaltest/unit'
-require 'minitest/spec'
+
+module Kernel
+  def describe desc, &block
+    cls = OpalTest::Spec.create desc
+    cls.class_eval(&block)
+    cls
+  end
+end
 
 module OpalTest
+  class Spec < MiniTest::Unit::TestCase
+    def self.current
+      @@current_spec
+    end
+
+    def initialize name
+      super name
+      @@current_spec = self
+    end
+
+    def self.it desc = "anonymouse", &block
+      block ||= proc { skip "(no tests defined)" }
+
+      @specs ||= 0
+      @specs += 1
+
+      name = "test_#{@specs}_#{desc.gsub(/\W+/, '_').downcase}"
+
+      define_method name, &block
+    end
+
+    def self.create name
+      cls = Class.new(self)
+      cls.instance_eval do
+        @name = name
+        @desc = name
+      end
+
+      cls
+    end
+
+    def to_s
+      @name
+    end
+
+    class << self
+      attr_reader :desc
+    end
+  end
+
   class PositiveOperatorMatcher
     def initialize(actual)
       @actual = actual
     end
 
     def ==(expected)
-      MiniTest::Spec.current.assert_equal expected, @actual
+      OpalTest::Spec.current.assert_equal expected, @actual
     end
   end
 
   class BeNilMatcher
     def match(actual)
-      MiniTest::Spec.current.assert actual.nil?
+      OpalTest::Spec.current.assert actual.nil?
     end
   end
 
   class BeTrueMatcher
     def match(actual)
-      MiniTest::Spec.current.assert true == actual
+      OpalTest::Spec.current.assert true == actual
     end
   end
 
   class BeFalseMatcher
     def match(actual)
-      MiniTest::Spec.current.assert false == actual
+      OpalTest::Spec.current.assert false == actual
     end
   end
 
@@ -36,11 +83,11 @@ module OpalTest
     end
 
     def match(actual)
-      MiniTest::Spec.current.assert_kind_of @expected, actual
+      OpalTest::Spec.current.assert_kind_of @expected, actual
     end
   end
 
-  module Exceptions
+  module Expectations
     def should(matcher)
       if matcher
         matcher.match(self)
@@ -68,6 +115,6 @@ module OpalTest
 end
 
 class Object
-  include OpalTest::Exceptions
+  include OpalTest::Expectations
 end
 
