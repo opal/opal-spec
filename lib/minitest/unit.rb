@@ -38,6 +38,7 @@ module MiniTest
     return ["No backtrace"] unless bt
 
     new_bt = []
+    bt
   end
 
   module Assertions
@@ -264,7 +265,8 @@ module MiniTest
         break if s =~ /in .(assert|refute|flunk|pass|fail|raise|must|wont)/
         last_before_assertion = s
       end
-      last_before_assertion.sub(/:in .*$/, '')
+      # last_before_assertion.sub(/:in .*$/, '')
+      last_before_assertion
     end
 
     ##
