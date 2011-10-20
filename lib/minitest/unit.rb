@@ -131,7 +131,7 @@ module MiniTest
         # to run (at_exit stacks).
         exit_code = nil
 
-        at_exit { exit false if exit_code && exit_code != 0 }
+        at_exit { false if exit_code && exit_code != 0 }
 
         exit_code = MiniTest::Unit.new.run ARGV
       } unless @@installed_at_exit
@@ -311,6 +311,8 @@ module MiniTest
 
     def _run args = []
       self.options = process_args args
+      # FIXME: remove this
+      self.options = {}
 
       puts "Run options: #{help}"
 
