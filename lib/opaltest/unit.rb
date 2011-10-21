@@ -6,12 +6,6 @@ class Time
   end
 end
 
-module Kernel
-  def print(*a)
-    puts *a
-  end
-end
-
 class String
   def %()
     self
