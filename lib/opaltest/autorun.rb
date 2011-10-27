@@ -5,14 +5,14 @@ require 'opaltest/unit'
 # page.
 
 if RUBY_ENGINE =~ /opal-browser/
-  raise "Body not loaded. Add tests into <body> element" unless $document.body
+  raise "Body not loaded. Add tests into <body> element" unless `document.body`
 
   def $stdout.puts(*a)
     a.each do |str|
-      elem = $document.createElement 'pre'
-      elem.text_content == nil ? elem.innerText = str : elem.textContent = str
-      elem.style.margin = "0px"
-      $document.body.appendChild elem
+      `var elem = document.createElement('pre');
+      elem.textContent == null ? elem.innerText = str : elem.textContent = str;
+      elem.style.margin = "0px";
+      document.body.appendChild(elem);`
     end
   end # $stdout
 end
