@@ -530,9 +530,6 @@ module MiniTest
       end
 
       def self.setup_hooks # :nodoc:
-        # FIXME: remove this line
-        return []
-
         if superclass.respond_to? :setup_hooks then
           superclass.setup_hooks
         else
@@ -582,9 +579,6 @@ module MiniTest
       end
 
       def self.teardown_hooks # :nodoc:
-        # FIXME: remove this line
-        return []
-
         if superclass.respond_to? :teardown_hooks then
           superclass.teardown_hooks
         else

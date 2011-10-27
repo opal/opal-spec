@@ -19,6 +19,18 @@ module OpalTest
       @@current_spec = self
     end
 
+    def self.before type = :each, &block
+      raise "unsupported before type: #{type}" unless type == :each
+
+      add_setup_hook {|tc| tc.instance_eval(&block) }
+    end
+
+    def self.after type = :each, &block
+      raise "unsupported after type: #{type}" unless type == :each
+
+      add_teardown_hook {|tc| tc.instance_eval(&block) }
+    end
+
     def self.it desc = "anonymouse", &block
       block ||= proc { skip "(no tests defined)" }
 
