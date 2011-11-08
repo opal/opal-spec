@@ -15,7 +15,8 @@ module OpalTest
     end
 
     def initialize name
-      super name
+      #super name
+      @__name__ = name
       @@current_spec = self
     end
 
@@ -100,7 +101,7 @@ module OpalTest
   end
 
   module Expectations
-    def should(matcher)
+    def should(matcher = nil)
       if matcher
         matcher.match(self)
       else
