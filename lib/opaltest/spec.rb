@@ -53,7 +53,7 @@ module OpalTest
       cls
     end
 
-    def to_s
+    def self.to_s
       @name
     end
 
