@@ -72,6 +72,16 @@ module OpalTest
     end
   end
 
+  class NegativeOperatorMatcher
+    def initialize(actual)
+      @actual = actual
+    end
+
+    def ==(expected)
+      OpalTest::Spec.current.refute_equal expected, @actual
+    end
+  end
+
   class BeNilMatcher
     def match(actual)
       OpalTest::Spec.current.assert actual.nil?
@@ -100,12 +110,34 @@ module OpalTest
     end
   end
 
+  class EqualMatcher
+    def initialize(expected)
+      @expected = expected
+    end
+
+    def match(actual)
+      OpalTest::Spec.current.assert_same @expected, actual
+    end
+
+    def not_match(actual)
+      OpalTest::Spec.current.refute_same @expected, actual
+    end
+  end
+
   module Expectations
     def should(matcher = nil)
       if matcher
         matcher.match(self)
       else
         OpalTest::PositiveOperatorMatcher.new(self)
+      end
+    end
+
+    def should_not(matcher = nil)
+      if matcher
+        matcher.not_match(self)
+      else
+        OpalTest::NegativeOperatorMatcher.new(self)
       end
     end
 
@@ -124,6 +156,10 @@ module OpalTest
     def be_kind_of(expected)
       OpalTest::BeKindOfMatcher.new(expected)
     end
+
+    def equal(expected)
+      OpalTest::EqualMatcher.new(expected)
+    end
   end
 end
 
@@ -131,3 +167,20 @@ class Object
   include OpalTest::Expectations
 end
 
+module ScratchPad
+  def self.clear
+    @record = nil
+  end
+
+  def self.record(arg)
+    @record = arg
+  end
+
+  def self.<<(arg)
+    @record << arg
+  end
+
+  def self.recorded
+    @record
+  end
+end

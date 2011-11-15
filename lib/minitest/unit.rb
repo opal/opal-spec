@@ -90,6 +90,13 @@ module MiniTest
       assert obj.nil?, msg
     end
 
+    def assert_same exp, act, msg = nil
+      msg = message(msg) {
+        "Expected #{act.inspect} (oid=#{act.object_id}) to be the same as #{exp.inspect} (oid=#{exp.object_id})"
+      }
+      assert exp.equal?(act), msg
+    end
+
     def message(msg = nil, ending = ".", &default_)
       proc {
         custom_message = "#{msg}.\n" unless msg.nil? or msg.to_s.empty?
@@ -100,6 +107,20 @@ module MiniTest
     def refute(test, msg = nil)
       msg ||= "Failed refutation, no message given"
       not assert(! test, msg)
+    end
+
+    def refute_equal exp, act, msg = nil
+      msg = message(msg) {
+        "Expected #{act.inspect} to not be equal to #{exp.inspect}"
+      }
+      refute exp == act, msg
+    end
+
+    def refute_same exp, act, msg = nil
+      msg = message(msg) {
+        "Expected #{act.inspect} (oid=#{act.object_id}) to not be the same as #{exp.inspect} (oid=#{exp.object_id})"
+      }
+      refute exp.equal?(act), msg
     end
   end
 
