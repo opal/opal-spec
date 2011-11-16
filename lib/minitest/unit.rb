@@ -97,6 +97,20 @@ module MiniTest
       assert exp.equal?(act), msg
     end
 
+    def assert_raises exp
+      should_raise = false
+      begin
+        yield
+        should_raise = true
+      rescue Exception => e
+
+      end
+
+      if should_raise
+        assert false, "#{exp} expected but nothing was raised."
+      end
+    end
+
     def message(msg = nil, ending = ".", &default_)
       proc {
         custom_message = "#{msg}.\n" unless msg.nil? or msg.to_s.empty?

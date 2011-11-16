@@ -124,6 +124,16 @@ module OpalTest
     end
   end
 
+  class RaiseErrorMatcher
+    def initialize(expected)
+      @expected = expected
+    end
+
+    def match(actual)
+      OpalTest::Spec.current.assert_raises @expected, &actual
+    end
+  end
+
   module Expectations
     def should(matcher = nil)
       if matcher
@@ -159,6 +169,10 @@ module OpalTest
 
     def equal(expected)
       OpalTest::EqualMatcher.new(expected)
+    end
+
+    def raise_error(expected)
+      OpalTest::RaiseErrorMatcher.new(expected)
     end
   end
 end
