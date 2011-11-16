@@ -198,3 +198,9 @@ module ScratchPad
     @record
   end
 end
+
+class Object
+  def mock(obj)
+    Object.new
+  end
+end
