@@ -29,6 +29,5 @@ end
 
 ##
 # Autorun behaviour which uses at_exit() to start tests running
-
 MiniTest::Unit.autorun
 

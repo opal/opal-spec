@@ -57,9 +57,13 @@ module OpalTest
       @name
     end
 
-    class << self
-      attr_reader :desc
+    def self.desc
+      @desc
     end
+
+    #class << self
+    #  attr_reader :desc
+    #end
   end
 
   class PositiveOperatorMatcher
@@ -202,5 +206,9 @@ end
 class Object
   def mock(obj)
     Object.new
+  end
+
+  def it_behaves_like(*a)
+
   end
 end
