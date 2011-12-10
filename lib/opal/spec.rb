@@ -1,0 +1,8 @@
+require 'opal/spec/kernel'
+require 'opal/spec/runner'
+require 'opal/spec/example_group'
+require 'opal/spec/example'
+require 'opal/spec/expectations'
+require 'opal/spec/matchers'
+require 'opal/spec/formatter'
+require 'opal/spec/scratch_pad'

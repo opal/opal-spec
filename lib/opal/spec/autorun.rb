@@ -1,4 +1,4 @@
-require 'opaltest/unit'
+require 'opal/spec'
 
 ##
 # If running in the browser then capture test output straight to the
@@ -23,11 +23,8 @@ end
 
 if $0 == __FILE__
   Dir['spec/**/*.rb'].each do |spec|
-    require spec
+   require spec
   end
 end
 
-##
-# Autorun behaviour which uses at_exit() to start tests running
-MiniTest::Unit.autorun
-
+OpalSpec::Runner.autorun
