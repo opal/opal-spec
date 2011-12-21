@@ -4,5 +4,6 @@ doc
 /tmp
 .yardoc
 extras
-/opal-test*.js
+/opal-spec*.js
+/*.gem
 
