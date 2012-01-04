@@ -1,4 +1,7 @@
 require 'opal'
-require 'opal/builder_task'
+require File.expand_path('../lib/opal/spec/version', __FILE__)
 
-Opal::BuilderTask.new
+desc "Build latest opal-spec to current dir"
+task :browser do
+  Opal::Compiler.new('lib', :join => "opal-spec-#{OpalSpec::VERSION}.js").compile
+end
