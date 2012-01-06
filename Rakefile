@@ -14,4 +14,5 @@ namespace :browser do
   end
 end
 
-task :browser => :'browser:build'
+desc "Build opal-spec in normal and debug mode"
+task :browser => %w(browser:build browser:debug)
