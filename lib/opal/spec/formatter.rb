@@ -25,7 +25,7 @@ module OpalSpec
         end
       end
 
-      puts "\n#{example_count} specifications, #{@failed_examples.size} failures"
+      puts "\n#{example_count} examples, #{@failed_examples.size} failures"
     end
 
     def example_group_started group
