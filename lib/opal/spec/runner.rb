@@ -5,7 +5,11 @@ module OpalSpec
     end
 
     def initialize
-      @formatters = [ConsoleFormatter.new]
+      if RUBY_ENGINE == 'opal-browser'
+        @formatters = [BrowserFormatter.new]
+      else
+        @formatters = [Formatter.new]
+      end
     end
 
     def run

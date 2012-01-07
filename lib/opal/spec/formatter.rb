@@ -9,33 +9,6 @@ module OpalSpec
     end
 
     def finish
-    end
-
-    def example_group_started group
-      @example_group = group
-    end
-
-    def example_group_finished group
-    end
-
-    def example_started example
-      @examples << example
-    end
-
-    def example_passed example
-    end
-
-    def example_failed example
-      @failed_examples << example
-    end
-
-    def example_count
-      @examples.size
-    end
-  end
-
-  class ConsoleFormatter < Formatter
-    def finish
       @failed_examples.each_with_index do |example, i|
         exception = example.exception
         description = example.description
@@ -53,6 +26,29 @@ module OpalSpec
       end
 
       puts "\n#{example_count} specifications, #{@failed_examples.size} failures"
+    end
+
+    def example_group_started group
+      @example_group = group
+    end
+
+    def example_group_finished group
+    end
+
+    def example_started example
+      @examples << example
+      @example = example
+    end
+
+    def example_passed example
+    end
+
+    def example_failed example
+      @failed_examples << example
+    end
+
+    def example_count
+      @examples.size
     end
   end
 end
