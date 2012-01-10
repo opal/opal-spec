@@ -8,7 +8,7 @@ bare minimum to get specs running.
 Change Log
 ----------
 
-### Edge
+### 0.0.2
 
 * Added seperate BrowserFormatter class for cleaner output
 * Update Rake tasks to use new Opal::Builder class
