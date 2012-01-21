@@ -39,7 +39,7 @@ module OpalSpec
     end
 
     def raise_error expected
-      OpalSpec::RaiseErrorMatcher.new expected, &@actual
+      OpalSpec::RaiseErrorMatcher.new expected
     end
   end
 end

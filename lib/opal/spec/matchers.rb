@@ -74,17 +74,16 @@ module OpalSpec
   end
 
   class RaiseErrorMatcher < Matcher
-    def match expected
+    def match block
       should_raise = false
       begin
-        yield
+        block.call
         should_raise = true
       rescue => e
-
       end
 
       if should_raise
-        failure "expected #{expected} to be raised, but nothing was."
+        failure "expected #{@actual} to be raised, but nothing was."
       end
     end
   end

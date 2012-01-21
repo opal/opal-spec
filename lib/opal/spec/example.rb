@@ -10,7 +10,7 @@ module OpalSpec
 
     def run_before_hooks
       @example_group.before_hooks.each do |before|
-        instance_eval &before 
+        instance_eval &before
       end
     end
 

@@ -2,10 +2,10 @@ require 'opal'
 
 desc "Build latest opal-spec to current dir"
 task :opal do
-  Opal::Builder.new('lib', :join => "opal-spec.js").build
+  sh "opal build"
 end
 
 desc "Get all running dependnecies"
 task :dependencies do
-  Opal::DependencyBuilder.new(opal: true, verbose: true).build
+  sh "opal dependencies"
 end
