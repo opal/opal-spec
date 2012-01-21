@@ -5,16 +5,23 @@ module OpalSpec
       @example_groups
     end
 
+    @stack = []
     def self.create desc, block
-      @example_groups << self.new(desc, block)
+      group = self.new desc, @stack.last
+      @example_groups << group
+
+      @stack << group
+      group.instance_eval &block
+      @stack.pop
     end
 
-    def initialize desc, block
-      @desc = desc
+    def initialize desc, parent
+      @desc     = desc.to_s
+      @parent   = parent
       @examples = []
+
       @before_hooks = []
-      @after_hooks = []
-      instance_eval &block
+      @after_hooks  = []
     end
 
     def it desc, &block
@@ -35,11 +42,11 @@ module OpalSpec
     end
 
     def before_hooks
-      @before_hooks
+      @parent ? @parent.before_hooks + @before_hooks : @before_hooks
     end
 
     def after_hooks
-      @after_hooks
+      @parent ? @parent.after_hooks + @after_hooks : @after_hooks
     end
 
     def run runner
@@ -49,7 +56,7 @@ module OpalSpec
     end
 
     def description
-      @desc
+      @parent ? "#{@parent.description} #{@desc}" : @desc
     end
   end
 end
