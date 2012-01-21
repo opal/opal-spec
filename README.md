@@ -8,7 +8,7 @@ bare minimum to get specs running.
 Change Log
 ----------
 
-### Edge
+### 0.0.3
 
 * Allow group names to be non-strings
 * Nested groups now have outer group name as prefix
