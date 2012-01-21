@@ -18,4 +18,10 @@ describe "All these tests will pass" do
 
     "foo".should_not == "bar"
   end
+
+  it "should raise exceptions" do
+    lambda {
+      raise "foo"
+    }.should raise_error(Exception)
+  end
 end
