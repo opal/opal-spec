@@ -108,7 +108,7 @@ module OpalSpec
 
         var example_list = document.createElement('ul');
         example_list.className = 'examples';
-        example_list.style.display = 'none';
+        //example_list.style.display = 'none';
         group_element.appendChild(example_list);
 
         #@groups_element.appendChild(group_element);
