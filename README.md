@@ -8,6 +8,10 @@ bare minimum to get specs running.
 Change Log
 ----------
 
+### Edge
+
+* BrowserFormatter is now default
+
 ### 0.0.3
 
 * Allow group names to be non-strings
