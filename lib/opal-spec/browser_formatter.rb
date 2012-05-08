@@ -1,7 +1,7 @@
-require 'opal/spec/formatter'
+#require 'opal/spec/formatter'
 
 module OpalSpec
-  class BrowserFormatter < Formatter
+  class BrowserFormatter
     CSS = <<-EOS
 
       body {
@@ -52,6 +52,11 @@ module OpalSpec
       }
     EOS
 
+    def initialize
+      @examples        = []
+      @failed_examples = []
+    end
+
     def start
       %x{
         if (!document || !document.body) {
@@ -70,6 +75,23 @@ module OpalSpec
     end
 
     def finish
+      # @failed_examples.each_with_index do |example, i|
+      #   exception = example.exception
+      #   description = example.description
+      #   group = example.example_group
+
+      #   case exception
+      #   when OpalSpec::ExpectationNotMetError
+      #     puts "\n#{i + 1}) Failure:\n#{group.description} #{description}:"
+      #     puts "#{exception.message}\n"
+      #   else
+      #     puts "\n#{i + 1}) Error:\n#{group.description} #{description}:"
+      #     puts "#{exception.class}: #{exception.message}\n"
+      #     puts "    #{exception.backtrace.join "\n    "}\n"
+      #   end
+      # end
+
+      # puts "\n#{example_count} examples, #{@failed_examples.size} failures"
     end
 
     def example_group_started group
@@ -102,6 +124,11 @@ module OpalSpec
       else
         `#@group_element.className = 'group passed';`
       end
+    end
+
+    def example_started example
+      @examples << example
+      @example = example
     end
 
     def example_failed example
@@ -150,6 +177,10 @@ module OpalSpec
         wrapper.appendChild(description);
         #@example_list.appendChild(wrapper);
       }
+    end
+
+    def example_count
+      @examples.size
     end
   end
 end

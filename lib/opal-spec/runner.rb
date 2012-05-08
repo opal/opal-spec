@@ -1,15 +1,11 @@
 module OpalSpec
   class Runner
-    def self.autorun
-      at_exit { OpalSpec::Runner.new.run } 
-    end
+    # def self.autorun
+    #   at_exit { OpalSpec::Runner.new.run } 
+    # end
 
     def initialize
-      if RUBY_ENGINE == 'opal-browser'
-        @formatters = [BrowserFormatter.new]
-      else
-        @formatters = [Formatter.new]
-      end
+      @formatters = [BrowserFormatter.new]
     end
 
     def run

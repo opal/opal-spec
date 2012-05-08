@@ -3,3 +3,5 @@ doc
 /pkg
 /*.js
 /*.gem
+/build
+Gemfile.lock
