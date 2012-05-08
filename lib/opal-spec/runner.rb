@@ -1,3 +1,10 @@
+# cheat until proper method available..
+%x{
+  setTimeout(function() {
+  #{OpalSpec::Runner.new.run}
+  }, 0);
+}
+
 module OpalSpec
   class Runner
     # def self.autorun
