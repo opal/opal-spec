@@ -42,11 +42,11 @@ module OpalSpec
     end
 
     def before_hooks
-      @parent ? @parent.before_hooks + @before_hooks : @before_hooks
+      @parent ? [].concat(@parent.before_hooks).concat(@before_hooks) : @before_hooks
     end
 
     def after_hooks
-      @parent ? @parent.after_hooks + @after_hooks : @after_hooks
+      @parent ? [].concat(@parent.after_hooks).concat(@after_hooks) : @after_hooks
     end
 
     def run runner
