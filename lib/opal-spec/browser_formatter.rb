@@ -62,67 +62,51 @@ module OpalSpec
         if (!document || !document.body) {
           #{ raise "Not running in browser." };
         }
-
-        var groups_element = document.createElement('ul');
-        groups_element.className = 'example_groups';
-        document.body.appendChild(groups_element);
-
-        var styles = document.createElement('style');
-        styles.innerHTML = #{ CSS };
-        document.head.appendChild(styles);
       }
-      @groups_element = `groups_element`
+
+      @summary_element = Element.new 'p'
+      @summary_element.class_name = 'summary'
+      @summary_element.append_to_body
+
+      @groups_element = Element.new 'ul'
+      @groups_element.class_name = 'example_groups'
+      @groups_element.append_to_body
+
+      styles = Element.new 'style'
+      styles.html = CSS
+      styles.append_to_head
     end
 
     def finish
-      # @failed_examples.each_with_index do |example, i|
-      #   exception = example.exception
-      #   description = example.description
-      #   group = example.example_group
-
-      #   case exception
-      #   when OpalSpec::ExpectationNotMetError
-      #     puts "\n#{i + 1}) Failure:\n#{group.description} #{description}:"
-      #     puts "#{exception.message}\n"
-      #   else
-      #     puts "\n#{i + 1}) Error:\n#{group.description} #{description}:"
-      #     puts "#{exception.class}: #{exception.message}\n"
-      #     puts "    #{exception.backtrace.join "\n    "}\n"
-      #   end
-      # end
-
-      # puts "\n#{example_count} examples, #{@failed_examples.size} failures"
+      text = "\n#{example_count} examples, #{@failed_examples.size} failures"
+      @summary_element.html = text
     end
 
     def example_group_started group
       @example_group = group
       @example_group_failed = false
 
-      %x{
-        var group_element = document.createElement('li');
+      @group_element = Element.new 'li'
 
-        var description = document.createElement('span');
-        description.className = 'group_description';
-        description.innerHTML = #{group.description};
-        group_element.appendChild(description);
+      description            = Element.new 'span'
+      description.class_name = 'group_description'
+      description.html       = group.description
 
-        var example_list = document.createElement('ul');
-        example_list.className = 'examples';
-        example_list.style.display = 'none';
-        group_element.appendChild(example_list);
+      @group_element.append description
 
-        #@groups_element.appendChild(group_element);
-      }
+      @example_list            = Element.new 'ul'
+      @example_list.class_name = 'examples'
+      @example_list.hide
 
-      @group_element = `group_element`
-      @example_list  = `example_list`
+      @group_element.append @example_list
+      @groups_element.append @group_element
     end
 
     def example_group_finished group
       if @example_group_failed
-        `#@group_element.className = 'group failed';`
+        @group_element.class_name = 'group failed'
       else
-        `#@group_element.className = 'group passed';`
+        @group_element.class_name = 'group passed'
       end
     end
 
@@ -145,38 +129,34 @@ module OpalSpec
         output += "    #{exception.backtrace.join "\n    "}\n"
       end
 
-      %x{
-        var wrapper = document.createElement('li');
-        wrapper.className = 'example failed';
+      wrapper = Element.new 'li'
+      wrapper.class_name = 'example failed'
 
-        var description = document.createElement('span');
-        description.className = 'example_description';
-        description.innerHTML = #{example.description};
+      description = Element.new 'span'
+      description.class_name = 'example_description'
+      description.html       = example.description
 
-        var exception = document.createElement('pre');
-        exception.className = 'exception';
-        exception.innerHTML = output;
+      exception = Element.new 'pre'
+      exception.class_name = 'exception'
+      exception.html       = output
 
-        wrapper.appendChild(description);
-        wrapper.appendChild(exception);
+      wrapper.append description
+      wrapper.append exception
 
-        #@example_list.appendChild(wrapper);
-        #@example_list.style.display = 'list-item';
-      }
+      @example_list.append wrapper
+      @example_list.style 'display', 'list-item'
     end
 
     def example_passed example
-      %x{
-        var wrapper = document.createElement('li');
-        wrapper.className = 'example passed';
+      wrapper = Element.new 'li'
+      wrapper.class_name = 'example passed'
 
-        var description = document.createElement('span');
-        description.className = 'example_description';
-        description.innerHTML = #{example.description};
+      description = Element.new 'span'
+      description.class_name = 'example_description'
+      description.html       = example.description
 
-        wrapper.appendChild(description);
-        #@example_list.appendChild(wrapper);
-      }
+      wrapper.append description
+      @example_list.append wrapper
     end
 
     def example_count
