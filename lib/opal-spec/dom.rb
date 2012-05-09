@@ -1,5 +1,9 @@
 module OpalSpec
   class Element
+    def self.body_ready?
+      `!!(document && document.body)`
+    end
+
     def initialize(tag = 'div')
       `this.el = document.createElement(tag)`
     end

@@ -58,11 +58,9 @@ module OpalSpec
     end
 
     def start
-      %x{
-        if (!document || !document.body) {
-          #{ raise "Not running in browser." };
-        }
-      }
+      unless Element.body_ready?
+        raise "Not running in browser"
+      end
 
       @summary_element = Element.new 'p'
       @summary_element.class_name = 'summary'
