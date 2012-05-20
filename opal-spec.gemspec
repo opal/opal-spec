@@ -1,8 +1,9 @@
 # -*- encoding: utf-8 -*-
+require File.expand_path('../lib/opal-spec/version', __FILE__)
 
 Gem::Specification.new do |s|
   s.name         = 'opal-spec'
-  s.version      = '0.1.1'
+  s.version      = OpalSpec::VERSION
   s.author       = 'Adam Beynon'
   s.email        = 'adam@adambeynon.com'
   s.homepage     = 'http://opalrb.org'
