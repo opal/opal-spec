@@ -1,5 +1,3 @@
-#require 'opal/spec/formatter'
-
 module OpalSpec
   class BrowserFormatter
     CSS = <<-EOS
