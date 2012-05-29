@@ -1,4 +1,13 @@
 module OpalSpec
+
+  def self.on_dom_ready(&block)
+    %x{
+      setTimeout(function() {
+        #{ block.call };
+      }, 0);
+    }
+  end
+
   class Element
     def self.body_ready?
       `!!(document && document.body)`
