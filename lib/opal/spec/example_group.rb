@@ -1,4 +1,4 @@
-module OpalSpec
+module Spec
   class ExampleGroup
     @example_groups = []
     def self.example_groups

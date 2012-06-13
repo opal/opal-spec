@@ -1,3 +1,3 @@
-module OpalSpec
+module Spec
   VERSION = "0.1.6"
 end

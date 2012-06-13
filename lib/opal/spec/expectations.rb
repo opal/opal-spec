@@ -1,4 +1,4 @@
-module OpalSpec
+module Spec
   class ExpectationNotMetError < StandardError; end
 
   module Expectations
@@ -6,7 +6,7 @@ module OpalSpec
       if matcher
         matcher.match self
       else
-        OpalSpec::PositiveOperatorMatcher.new self
+        Spec::PositiveOperatorMatcher.new self
       end
     end
 
@@ -14,36 +14,36 @@ module OpalSpec
       if matcher
         matcher.not_match self
       else
-        OpalSpec::NegativeOperatorMatcher.new self
+        Spec::NegativeOperatorMatcher.new self
       end
     end
 
     def be_kind_of expected
-      OpalSpec::BeKindOfMatcher.new expected
+      Spec::BeKindOfMatcher.new expected
     end
 
     def be_nil
-      OpalSpec::BeNilMatcher.new nil
+      Spec::BeNilMatcher.new nil
     end
 
     def be_true
-      OpalSpec::BeTrueMatcher.new true
+      Spec::BeTrueMatcher.new true
     end
 
     def be_false
-      OpalSpec::BeFalseMatcher.new false
+      Spec::BeFalseMatcher.new false
     end
 
     def equal expected
-      OpalSpec::EqualMatcher.new expected
+      Spec::EqualMatcher.new expected
     end
 
     def raise_error expected
-      OpalSpec::RaiseErrorMatcher.new expected
+      Spec::RaiseErrorMatcher.new expected
     end
   end
 end
 
 class Object
-  include OpalSpec::Expectations
+  include Spec::Expectations
 end

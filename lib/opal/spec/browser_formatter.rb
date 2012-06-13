@@ -1,4 +1,4 @@
-module OpalSpec
+module Spec
   class BrowserFormatter
     CSS = <<-EOS
 
@@ -56,21 +56,15 @@ module OpalSpec
     end
 
     def start
-      unless Element.body_ready?
-        raise "Not running in browser"
-      end
+      raise "Not running in browser" unless Document.body_ready?
 
-      @summary_element = Element.new 'p'
-      @summary_element.class_name = 'summary'
+      @summary_element = DOM.parse '<p class="summary"></p>'
       @summary_element.append_to_body
 
-      @groups_element = Element.new 'ul'
-      @groups_element.class_name = 'example_groups'
+      @groups_element = DOM.parse '<ul class="example_groups"></ul>'
       @groups_element.append_to_body
 
-      styles = Element.new 'style'
-      styles.html = CSS
-      styles.append_to_head
+      DOM.parse("<style>#{ CSS }</style>").append_to_head
     end
 
     def finish
@@ -82,20 +76,20 @@ module OpalSpec
       @example_group = group
       @example_group_failed = false
 
-      @group_element = Element.new 'li'
+      @group_element = DOM.parse <<-HTML
+        <li>
+          <span class="group_description">
+            #{ group.description }
+          </span>
+        </li>
+      HTML
 
-      description            = Element.new 'span'
-      description.class_name = 'group_description'
-      description.html       = group.description
+      @example_list = DOM.parse <<-HTML
+        <ul class="examples" style="display:none;"></ul>
+      HTML
 
-      @group_element.append description
-
-      @example_list            = Element.new 'ul'
-      @example_list.class_name = 'examples'
-      @example_list.hide
-
-      @group_element.append @example_list
-      @groups_element.append @group_element
+      @group_element << @example_list
+      @groups_element << @group_element
     end
 
     def example_group_finished group
@@ -118,41 +112,38 @@ module OpalSpec
       exception = example.exception
 
       case exception
-      when OpalSpec::ExpectationNotMetError
+      when Spec::ExpectationNotMetError
         output  = exception.message
       else
         output  = "#{exception.class}: #{exception.message}\n"
         output += "    #{exception.backtrace.join "\n    "}\n"
       end
 
-      wrapper = Element.new 'li'
-      wrapper.class_name = 'example failed'
+      wrapper = DOM.parse '<li class="example failed"></li>'
 
-      description = Element.new 'span'
-      description.class_name = 'example_description'
-      description.html       = example.description
+      description = DOM.parse <<-HTML
+        <span class="example_description">#{ example.description }</span>
+      HTML
 
-      exception = Element.new 'pre'
-      exception.class_name = 'exception'
-      exception.html       = output
+      exception = DOM.parse <<-HTML
+        <pre class="exception">#{ output }</pre>
+      HTML
 
-      wrapper.append description
-      wrapper.append exception
+      wrapper << description
+      wrapper << exception
 
       @example_list.append wrapper
-      @example_list.style 'display', 'list-item'
+      @example_list.css 'display', 'list-item'
     end
 
     def example_passed example
-      wrapper = Element.new 'li'
-      wrapper.class_name = 'example passed'
+      out = DOM.parse <<-HTML
+        <li class="example passed">
+          <span class="example_description">#{ example.description }</span>
+        </li>
+      HTML
 
-      description = Element.new 'span'
-      description.class_name = 'example_description'
-      description.html       = example.description
-
-      wrapper.append description
-      @example_list.append wrapper
+      @example_list.append out
     end
 
     def example_count

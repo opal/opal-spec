@@ -1,4 +1,4 @@
-module OpalSpec
+module Spec
   class Runner
     def initialize
       @formatter = BrowserFormatter.new
