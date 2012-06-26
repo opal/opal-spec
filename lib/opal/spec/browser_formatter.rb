@@ -24,7 +24,7 @@ module Spec
       }
 
       ul.example_groups {
-        list-style-type: none;
+      /* list-style-type: none; */
       }
 
       li.group.passed .group_description {
