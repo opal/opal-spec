@@ -58,13 +58,13 @@ module Spec
     def start
       raise "Not running in browser" unless Document.body_ready?
 
-      @summary_element = DOM.parse '<p class="summary"></p>'
+      @summary_element = Element '<p class="summary"></p>'
       @summary_element.append_to_body
 
-      @groups_element = DOM.parse '<ul class="example_groups"></ul>'
+      @groups_element = Element '<ul class="example_groups"></ul>'
       @groups_element.append_to_body
 
-      DOM.parse("<style>#{ CSS }</style>").append_to_head
+      Element("<style>#{ CSS }</style>").append_to_head
     end
 
     def finish
@@ -76,7 +76,7 @@ module Spec
       @example_group = group
       @example_group_failed = false
 
-      @group_element = DOM.parse <<-HTML
+      @group_element = Element <<-HTML
         <li>
           <span class="group_description">
             #{ group.description }
@@ -84,7 +84,7 @@ module Spec
         </li>
       HTML
 
-      @example_list = DOM.parse <<-HTML
+      @example_list = Element <<-HTML
         <ul class="examples"></ul>
       HTML
 
@@ -119,13 +119,13 @@ module Spec
         output += "    #{exception.backtrace.join "\n    "}\n"
       end
 
-      wrapper = DOM.parse '<li class="example failed"></li>'
+      wrapper = Element('<li class="example failed"></li>')
 
-      description = DOM.parse <<-HTML
+      description = Element <<-HTML
         <span class="example_description">#{ example.description }</span>
       HTML
 
-      exception = DOM.parse <<-HTML
+      exception = Element <<-HTML
         <pre class="exception">#{ output }</pre>
       HTML
 
@@ -137,7 +137,7 @@ module Spec
     end
 
     def example_passed example
-      out = DOM.parse <<-HTML
+      out = Element <<-HTML
         <li class="example passed">
           <span class="example_description">#{ example.description }</span>
         </li>
