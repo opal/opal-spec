@@ -24,7 +24,7 @@ module Spec
       }
 
       ul.example_groups {
-      /* list-style-type: none; */
+        list-style-type: none;
       }
 
       li.group.passed .group_description {
@@ -85,7 +85,7 @@ module Spec
       HTML
 
       @example_list = DOM.parse <<-HTML
-        <ul class="examples" style="display:none;"></ul>
+        <ul class="examples"></ul>
       HTML
 
       @group_element << @example_list
