@@ -58,13 +58,13 @@ module Spec
     def start
       raise "Not running in browser" unless Document.body_ready?
 
-      @summary_element = Element '<p class="summary"></p>'
+      @summary_element = DOM '<p class="summary"></p>'
       @summary_element.append_to_body
 
-      @groups_element = Element '<ul class="example_groups"></ul>'
+      @groups_element = DOM '<ul class="example_groups"></ul>'
       @groups_element.append_to_body
 
-      Element("<style>#{ CSS }</style>").append_to_head
+      DOM("<style>#{ CSS }</style>").append_to_head
     end
 
     def finish
@@ -76,7 +76,7 @@ module Spec
       @example_group = group
       @example_group_failed = false
 
-      @group_element = Element <<-HTML
+      @group_element = DOM <<-HTML
         <li>
           <span class="group_description">
             #{ group.description }
@@ -84,7 +84,7 @@ module Spec
         </li>
       HTML
 
-      @example_list = Element <<-HTML
+      @example_list = DOM <<-HTML
         <ul class="examples"></ul>
       HTML
 
@@ -115,16 +115,16 @@ module Spec
       when Spec::ExpectationNotMetError
         output  = exception.message
       else
-        output  = "#{exception.class}: #{exception.message}\n"
+        output  = "#{exception.class.name}: #{exception.message}\n"
         output += "    #{exception.backtrace.join "\n    "}\n"
       end
 
-      wrapper = Element('<li class="example failed"></li>')
+      wrapper = DOM('<li class="example failed"></li>')
 
-      description = Element('<span class="example_description"></span>')
+      description = DOM('<span class="example_description"></span>')
       description.text = example.description
 
-      exception = Element('<pre class="exception"></pre>')
+      exception = DOM('<pre class="exception"></pre>')
       exception.text = output
 
       wrapper << description
@@ -135,7 +135,7 @@ module Spec
     end
 
     def example_passed example
-      out = Element <<-HTML
+      out = DOM <<-HTML
         <li class="example passed">
           <span class="example_description">#{ example.description }</span>
         </li>
