@@ -121,13 +121,11 @@ module Spec
 
       wrapper = Element('<li class="example failed"></li>')
 
-      description = Element <<-HTML
-        <span class="example_description">#{ example.description }</span>
-      HTML
+      description = Element('<span class="example_description"></span>')
+      description.text = example.description
 
-      exception = Element <<-HTML
-        <pre class="exception">#{ output }</pre>
-      HTML
+      exception = Element('<pre class="exception"></pre>')
+      exception.text = output
 
       wrapper << description
       wrapper << exception
