@@ -56,15 +56,15 @@ module Spec
     end
 
     def start
-      raise "Not running in browser" unless Document.body_ready?
+      Document.ready? do
+        @summary_element = Element.new '<p class="summary"></p>'
+        @summary_element.append_to_body
 
-      @summary_element = DOM '<p class="summary"></p>'
-      @summary_element.append_to_body
+        @groups_element = Element.new '<ul class="example_groups"></ul>'
+        @groups_element.append_to_body
 
-      @groups_element = DOM '<ul class="example_groups"></ul>'
-      @groups_element.append_to_body
-
-      DOM("<style>#{ CSS }</style>").append_to_head
+        Element.new("<style>#{ CSS }</style>").append_to_head
+      end
     end
 
     def finish
@@ -76,7 +76,7 @@ module Spec
       @example_group = group
       @example_group_failed = false
 
-      @group_element = DOM <<-HTML
+      @group_element = Element.new <<-HTML
         <li>
           <span class="group_description">
             #{ group.description }
@@ -84,7 +84,7 @@ module Spec
         </li>
       HTML
 
-      @example_list = DOM <<-HTML
+      @example_list = Element.new <<-HTML
         <ul class="examples"></ul>
       HTML
 
@@ -119,12 +119,12 @@ module Spec
         output += "    #{exception.backtrace.join "\n    "}\n"
       end
 
-      wrapper = DOM('<li class="example failed"></li>')
+      wrapper = Element.new('<li class="example failed"></li>')
 
-      description = DOM('<span class="example_description"></span>')
+      description = Element.new('<span class="example_description"></span>')
       description.text = example.description
 
-      exception = DOM('<pre class="exception"></pre>')
+      exception = Element.new('<pre class="exception"></pre>')
       exception.text = output
 
       wrapper << description
@@ -135,7 +135,7 @@ module Spec
     end
 
     def example_passed example
-      out = DOM <<-HTML
+      out = Element.new <<-HTML
         <li class="example passed">
           <span class="example_description">#{ example.description }</span>
         </li>
