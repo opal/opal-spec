@@ -56,15 +56,13 @@ module Spec
     end
 
     def start
-      Document.ready? do
-        @summary_element = Element.new '<p class="summary"></p>'
-        @summary_element.append_to_body
+      @summary_element = Element.new '<p class="summary"></p>'
+      @summary_element.append_to_body
 
-        @groups_element = Element.new '<ul class="example_groups"></ul>'
-        @groups_element.append_to_body
+      @groups_element = Element.new '<ul class="example_groups"></ul>'
+      @groups_element.append_to_body
 
-        Element.new("<style>#{ CSS }</style>").append_to_head
-      end
+      Element.new("<style>#{ CSS }</style>").append_to_head
     end
 
     def finish
