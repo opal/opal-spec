@@ -1,2 +1,2 @@
-gem "opal", :path => "~/Development/opal"
+gem "opal", :git => 'git://github/adambeynon/opal.git'
 gem "rake"

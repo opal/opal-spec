@@ -1,5 +1,19 @@
 module Spec
   class Runner
+    # Simple autorunner. Specs will be loaded bu the given glob, and
+    # then run on document ready.
+    #
+    #   # run specs from test/ instead of spec/
+    #   Spec::Runner.autorun 'test/**/*'
+    #
+    # @param [String] glob files to run
+    def self.autorun(glob = "spec/**/*")
+      Document.ready? do
+        Dir[glob].each { |s| require s }
+        Runner.new.run
+      end
+    end
+
     def initialize
       @formatter = BrowserFormatter.new
     end
