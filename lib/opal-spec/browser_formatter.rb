@@ -67,7 +67,7 @@ module Spec
     end
 
     def finish
-      time = Time.now - @start_time
+      time = Time.now.to_i - @start_time.to_i
       text = "\n#{example_count} examples, #{@failed_examples.size} failures (time taken: #{time})"
       @summary_element.html = text
     end
