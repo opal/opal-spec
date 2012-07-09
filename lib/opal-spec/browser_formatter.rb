@@ -56,6 +56,7 @@ module Spec
     end
 
     def start
+      @start_time = Time.now
       @summary_element = Element.new '<p class="summary"></p>'
       @summary_element.append_to_body
 
@@ -66,7 +67,8 @@ module Spec
     end
 
     def finish
-      text = "\n#{example_count} examples, #{@failed_examples.size} failures"
+      time = Time.now - @start_time
+      text = "\n#{example_count} examples, #{@failed_examples.size} failures (time taken: #{time})"
       @summary_element.html = text
     end
 
