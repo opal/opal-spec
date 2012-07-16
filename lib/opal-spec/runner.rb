@@ -7,11 +7,15 @@ module Spec
     #   Spec::Runner.autorun 'test/**/*'
     #
     # @param [String] glob files to run
-    def self.autorun(glob = "spec/**/*")
-      Document.ready? do
-        Dir[glob].each { |s| require s }
-        Runner.new.run
-      end
+    # def self.autorun(glob = "spec/**/*")
+    #   Document.ready? do
+    #     Dir[glob].each { |s| require s }
+    #     Runner.new.run
+    #   end
+    # end
+
+    def self.autorun
+      Document.ready? { Runner.new.run }
     end
 
     def initialize
