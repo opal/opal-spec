@@ -56,47 +56,63 @@ module Spec
     end
 
     def start
+      %x{
+        if (!document || !document.body) {
+          #{ raise "Not running in browser." };
+        }
+
+        var summary_element = document.createElement('p');
+        summary_element.className = 'summary';
+        document.body.appendChild(summary_element);
+
+        var groups_element = document.createElement('ul');
+        groups_element.className = 'example_groups';
+        document.body.appendChild(groups_element);
+
+        var styles = document.createElement('style');
+        styles.innerHTML = #{ CSS };
+        document.head.appendChild(styles);
+      }
+
       @start_time = Time.now.to_f
-      @summary_element = Element.new '<p class="summary"></p>'
-      @summary_element.append_to_body
-
-      @groups_element = Element.new '<ul class="example_groups"></ul>'
-      @groups_element.append_to_body
-
-      Element.new("<style>#{ CSS }</style>").append_to_head
+      @groups_element = `groups_element`
+      @summary_element = `summary_element`
     end
 
     def finish
       time = Time.now.to_f - @start_time
       text = "\n#{example_count} examples, #{@failed_examples.size} failures (time taken: #{time})"
-      @summary_element.html = text
+      `#{@summary_element}.innerHTML = text`
     end
 
     def example_group_started group
       @example_group = group
       @example_group_failed = false
 
-      @group_element = Element.new <<-HTML
-        <li>
-          <span class="group_description">
-            #{ group.description }
-          </span>
-        </li>
-      HTML
+      %x{
+        var group_element = document.createElement('li');
 
-      @example_list = Element.new <<-HTML
-        <ul class="examples"></ul>
-      HTML
+        var description = document.createElement('span');
+        description.className = 'group_description';
+        description.innerHTML = #{group.description};
+        group_element.appendChild(description);
 
-      @group_element << @example_list
-      @groups_element << @group_element
+        var example_list = document.createElement('ul');
+        example_list.className = 'examples';
+        group_element.appendChild(example_list);
+
+        #@groups_element.appendChild(group_element);
+      }
+
+      @group_element = `group_element`
+      @example_list  = `example_list`
     end
 
     def example_group_finished group
       if @example_group_failed
-        @group_element.class_name = 'group failed'
+        `#@group_element.className = 'group failed';`
       else
-        @group_element.class_name = 'group passed'
+        `#@group_element.className = 'group passed';`
       end
     end
 
@@ -115,33 +131,42 @@ module Spec
       when Spec::ExpectationNotMetError
         output  = exception.message
       else
-        output  = "#{exception.class.name}: #{exception.message}\n"
+        output  = "#{exception.class}: #{exception.message}\n"
         output += "    #{exception.backtrace.join "\n    "}\n"
       end
 
-      wrapper = Element.new('<li class="example failed"></li>')
+      %x{
+        var wrapper = document.createElement('li');
+        wrapper.className = 'example failed';
 
-      description = Element.new('<span class="example_description"></span>')
-      description.text = example.description
+        var description = document.createElement('span');
+        description.className = 'example_description';
+        description.innerHTML = #{example.description};
 
-      exception = Element.new('<pre class="exception"></pre>')
-      exception.text = output
+        var exception = document.createElement('pre');
+        exception.className = 'exception';
+        exception.innerHTML = output;
 
-      wrapper << description
-      wrapper << exception
+        wrapper.appendChild(description);
+        wrapper.appendChild(exception);
 
-      @example_list.append wrapper
-      @example_list.css 'display', 'list-item'
+        #@example_list.appendChild(wrapper);
+        #@example_list.style.display = 'list-item';
+      }
     end
 
     def example_passed example
-      out = Element.new <<-HTML
-        <li class="example passed">
-          <span class="example_description">#{ example.description }</span>
-        </li>
-      HTML
+      %x{
+        var wrapper = document.createElement('li');
+        wrapper.className = 'example passed';
 
-      @example_list.append out
+        var description = document.createElement('span');
+        description.className = 'example_description';
+        description.innerHTML = #{example.description};
+
+        wrapper.appendChild(description);
+        #@example_list.appendChild(wrapper);
+      }
     end
 
     def example_count
