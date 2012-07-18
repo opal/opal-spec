@@ -15,7 +15,11 @@ module Spec
     # end
 
     def self.autorun
-      Document.ready? { Runner.new.run }
+      %x{
+        setTimeout(function() {
+          #{ Runner.new.run };
+        }, 0);
+      }
     end
 
     def initialize
