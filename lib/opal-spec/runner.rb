@@ -1,29 +1,31 @@
 module Spec
   class Runner
-    # Simple autorunner. Specs will be loaded bu the given glob, and
-    # then run on document ready.
-    #
-    #   # run specs from test/ instead of spec/
-    #   Spec::Runner.autorun 'test/**/*'
-    #
-    # @param [String] glob files to run
-    # def self.autorun(glob = "spec/**/*")
-    #   Document.ready? do
-    #     Dir[glob].each { |s| require s }
-    #     Runner.new.run
-    #   end
-    # end
-
-    def self.autorun
+    def self.in_browser?
       %x{
-        setTimeout(function() {
-          #{ Runner.new.run };
-        }, 0);
+        if (typeof(window) !== 'undefined' && typeof(document) !== 'undefined') {
+          return true;
+        }
+
+        return false;
       }
     end
 
+    def self.autorun
+      if in_browser?
+        %x{
+          setTimeout(function() {
+            #{ Runner.new.run };
+          }, 0);
+        }
+      end
+    end
+
     def initialize
-      @formatter = BrowserFormatter.new
+      if Runner.in_browser?
+        @formatter = BrowserFormatter.new
+      else
+        @formatter = RSpecFormatter.new
+      end
     end
 
     def run
