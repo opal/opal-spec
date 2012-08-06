@@ -10,6 +10,16 @@ module Spec
       }
     end
 
+    def self.in_phantom?
+      %x{
+        if (typeof(phantom) !== 'undefined' && phantom.exit) {
+          return true;
+        }
+
+        return false;
+      }
+    end
+
     def self.autorun
       if in_browser?
         %x{
@@ -21,7 +31,9 @@ module Spec
     end
 
     def initialize
-      if Runner.in_browser?
+      if Runner.in_phantom?
+        @formatter = PhantomFormatter.new
+      elsif Runner.in_browser?
         @formatter = BrowserFormatter.new
       else
         @formatter = RSpecFormatter.new
