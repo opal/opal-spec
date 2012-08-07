@@ -1,5 +1,5 @@
 module Spec
-  class RSpecFormatter
+  class PhantomFormatter
     def initialize
       @examples        = []
       @failed_examples = []
