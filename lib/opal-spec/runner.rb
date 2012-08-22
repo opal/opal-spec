@@ -27,6 +27,8 @@ module Spec
             #{ Runner.new.run };
           }, 0);
         }
+      else
+        Runner.new.run
       end
     end
 
