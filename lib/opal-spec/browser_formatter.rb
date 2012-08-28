@@ -63,7 +63,6 @@ module Spec
 
         var summary_element = document.createElement('p');
         summary_element.className = 'summary';
-        document.body.appendChild(summary_element);
 
         var groups_element = document.createElement('ul');
         groups_element.className = 'example_groups';
@@ -74,6 +73,7 @@ module Spec
           target = document.body;
         }
 
+        target.appendChild(summary_element);
         target.appendChild(groups_element);
 
         var styles = document.createElement('style');
