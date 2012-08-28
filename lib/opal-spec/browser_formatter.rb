@@ -67,7 +67,14 @@ module Spec
 
         var groups_element = document.createElement('ul');
         groups_element.className = 'example_groups';
-        document.body.appendChild(groups_element);
+
+        var target = document.getElementById('opal-spec-output');
+
+        if (!target) {
+          target = document.body;
+        }
+
+        target.appendChild(groups_element);
 
         var styles = document.createElement('style');
         styles.innerHTML = #{ CSS };
