@@ -1,4 +1,4 @@
-module OSpec
+module OpalSpec
   class PhantomFormatter
     def initialize
       @examples        = []
@@ -32,7 +32,7 @@ module OSpec
 
           exception = example.exception
           case exception
-          when OSpec::ExpectationNotMetError
+          when OpalSpec::ExpectationNotMetError
             output  = exception.message
           else
             output  = "#{exception.class}: #{exception.message}\n"

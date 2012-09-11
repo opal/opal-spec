@@ -1,6 +1,6 @@
 module Kernel
   def describe desc, &block
-    OSpec::ExampleGroup.create desc, block
+    OpalSpec::ExampleGroup.create desc, block
   end
 
   def mock obj

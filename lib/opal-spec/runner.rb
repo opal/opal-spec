@@ -1,4 +1,4 @@
-module OSpec
+module OpalSpec
   class Runner
     def self.in_browser?
       %x{

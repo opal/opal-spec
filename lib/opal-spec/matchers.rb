@@ -1,11 +1,11 @@
-module OSpec
+module OpalSpec
   class Matcher
     def initialize actual
       @actual = actual
     end
 
     def failure message
-      raise OSpec::ExpectationNotMetError, message
+      raise OpalSpec::ExpectationNotMetError, message
     end
   end
 

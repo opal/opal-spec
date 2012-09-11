@@ -1,4 +1,4 @@
-module OSpec
+module OpalSpec
   class BrowserFormatter
     CSS = <<-EOS
 
@@ -135,7 +135,7 @@ module OSpec
       exception = example.exception
 
       case exception
-      when OSpec::ExpectationNotMetError
+      when OpalSpec::ExpectationNotMetError
         output  = exception.message
       else
         output  = "#{exception.class}: #{exception.message}\n"

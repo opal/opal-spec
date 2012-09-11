@@ -1,4 +1,4 @@
-module OSpec
+module OpalSpec
   class Example
     attr_reader :description, :example_group, :exception
 
