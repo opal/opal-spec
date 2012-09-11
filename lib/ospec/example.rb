@@ -1,4 +1,4 @@
-module Spec
+module OSpec
   class Example
     attr_reader :description, :example_group, :exception
 

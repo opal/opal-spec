@@ -1,4 +1,4 @@
-module Spec
+module OSpec
   class ExampleGroup
     @example_groups = []
     def self.example_groups

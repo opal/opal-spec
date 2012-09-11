@@ -1,4 +1,4 @@
-module Spec
+module OSpec
   class Runner
     def self.in_browser?
       %x{
@@ -37,8 +37,6 @@ module Spec
         @formatter = PhantomFormatter.new
       elsif Runner.in_browser?
         @formatter = BrowserFormatter.new
-      else
-        @formatter = RSpecFormatter.new
       end
     end
 

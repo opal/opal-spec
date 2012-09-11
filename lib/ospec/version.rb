@@ -1,3 +1,3 @@
-module Spec
+module OSpec
   VERSION = "0.1.15"
 end
