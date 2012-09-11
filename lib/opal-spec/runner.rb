@@ -12,7 +12,7 @@ module OpalSpec
 
     def self.in_phantom?
       %x{
-        if (typeof(phantom) !== 'undefined' && phantom.exit) {
+        if (typeof(phantom) !== 'undefined' || typeof(OPAL_SPEC_PHANTOM) !== 'undefined') {
           return true;
         }
 

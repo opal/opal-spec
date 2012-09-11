@@ -24,7 +24,7 @@ module OpalSpec
       if @failed_examples.empty?
         log "\nFinished"
         log_green "#{example_count} examples, 0 failures"
-        `phantom.exit(0)`
+        finish_with_code(0)
       else
         log "\nFailures:"
         @failed_examples.each_with_index do |example, idx|
@@ -43,8 +43,19 @@ module OpalSpec
 
         log "\nFinished"
         log_red "#{example_count} examples, #{@failed_examples.size} failures"
-        `phantom.exit(1)`
+        finish_with_code(1)
       end
+    end
+    
+    def finish_with_code(code)
+      %x{
+        if (typeof(phantom) !== 'undefined') {
+          return phantom.exit(code);
+        }
+        else {
+          window.OPAL_SPEC_CODE = code;
+        }
+      }
     end
 
     def example_group_started group
