@@ -41,10 +41,17 @@ module OpalSpec
     end
 
     def run
-      groups = ExampleGroup.example_groups
+      @groups = ExampleGroup.example_groups.dup
       @formatter.start
-      groups.each { |group| group.run self }
-      @formatter.finish
+      run_next_group
+    end
+
+    def run_next_group
+      if @groups.empty?
+        @formatter.finish
+      else
+        @groups.shift.run self
+      end
     end
 
     def example_group_started group
@@ -53,6 +60,7 @@ module OpalSpec
 
     def example_group_finished group
       @formatter.example_group_finished group
+      run_next_group
     end
 
     def example_started example

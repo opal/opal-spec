@@ -24,8 +24,14 @@ module OpalSpec
       @after_hooks  = []
     end
 
-    def it desc, &block
+    def it(desc, &block)
       @examples << Example.new(self, desc, block)
+    end
+
+    def async(desc, &block)
+      example = Example.new(self, desc, block)
+      example.asynchronous = true
+      @examples << example
     end
 
     def it_behaves_like(*objs)
@@ -49,10 +55,34 @@ module OpalSpec
       @parent ? [].concat(@parent.after_hooks).concat(@after_hooks) : @after_hooks
     end
 
-    def run runner
-      runner.example_group_started self
-      @examples.each { |example| example.run runner }
-      runner.example_group_finished self
+    def run(runner)
+      @runner = runner
+      @runner.example_group_started self
+
+      @running_examples = @examples.dup
+      run_next_example
+    end
+
+    def run_next_example
+      if @running_examples.empty?
+        @runner.example_group_finished self
+      else
+        @running_examples.shift.run
+      end
+    end
+
+    def example_started(example)
+      @runner.example_started(example)
+    end
+
+    def example_passed(example)
+      @runner.example_passed(example)
+      run_next_example
+    end
+
+    def example_failed(example)
+      @runner.example_failed(example)
+      run_next_example
     end
 
     def description

@@ -35,7 +35,7 @@ module OpalSpec
           when OpalSpec::ExpectationNotMetError
             output  = exception.message
           else
-            output  = "#{exception.class}: #{exception.message}\n"
+            output  = "#{exception.class.name}: #{exception.message}\n"
             output += "      #{exception.backtrace.join "\n      "}\n"
           end
           log_red "    #{output}"
