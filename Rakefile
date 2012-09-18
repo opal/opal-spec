@@ -1,6 +1,4 @@
-require 'bundler'
-Bundler.setup
-
+require 'bundler/setup'
 require 'opal/rake_task'
 
 Opal::RakeTask.new do |t|
