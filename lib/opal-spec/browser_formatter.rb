@@ -77,8 +77,16 @@ module OpalSpec
         target.appendChild(groups_element);
 
         var styles = document.createElement('style');
-        styles.innerHTML = #{ CSS };
-        document.head.appendChild(styles);
+        styles.type = 'text/css';
+
+        if (styles.styleSheet) {
+          styles.styleSheet.cssText = __scope.CSS;
+        }
+        else {
+          styles.appendChild(document.createTextNode(__scope.CSS));
+        }
+
+        document.getElementsByTagName('head')[0].appendChild(styles);
       }
 
       @start_time = Time.now.to_f
