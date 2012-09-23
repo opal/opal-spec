@@ -30,7 +30,7 @@ module OpalSpec
   class BeKindOfMatcher < Matcher
     def match expected
       unless expected.kind_of? @actual
-        failure "expected #{expected.inspect} to be a kind of #{@actual}, not #{expected.class}."
+        failure "expected #{expected.inspect} to be a kind of #{@actual.name}, not #{expected.class.name}."
       end
     end
   end
