@@ -18,12 +18,14 @@ module OpalSpec
     end
 
     def start
+      @start_time = Time.now.to_f
     end
 
     def finish
+      time = Time.now.to_f - @start_time
       if @failed_examples.empty?
         log "\nFinished"
-        log_green "#{example_count} examples, 0 failures"
+        log_green "#{example_count} examples, 0 failures (time taken: #{time})"
         finish_with_code(0)
       else
         log "\nFailures:"
@@ -42,7 +44,7 @@ module OpalSpec
         end
 
         log "\nFinished"
-        log_red "#{example_count} examples, #{@failed_examples.size} failures"
+        log_red "#{example_count} examples, #{@failed_examples.size} failures (time taken: #{time})"
         finish_with_code(1)
       end
     end
