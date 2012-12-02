@@ -19,6 +19,23 @@ describe 'Normal group' do
   end
 end
 
+describe "New eql" do
+  it "these should both pass" do
+    1.should eq(1)
+    1.should_not eq(2)
+  end
+
+  it "and this should fail" do
+    1.should eq(:adam)
+  end
+end
+
+describe Object do
+  it "should output a nice name for classes" do
+    1.should eq(1)
+  end
+end
+
 describe 'Another group' do
   it 'this should pass' do
     1.should == 1

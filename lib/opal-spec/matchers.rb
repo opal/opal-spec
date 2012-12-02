@@ -59,6 +59,20 @@ module OpalSpec
     end
   end
 
+  class EqlMatcher < Matcher
+    def match(expected)
+      unless expected == @actual
+        failure "expected: #{expected.inspect}, got: #{@actual.inspect} (using ==)."
+      end
+    end
+
+    def not_match(expected)
+      if expected.equal? @actual
+        failure "expected: #{expected.inspect} not to be #{@actual.inspect} (using ==)."
+      end
+    end
+  end
+
   class EqualMatcher < Matcher
     def match expected
       unless expected.equal? @actual

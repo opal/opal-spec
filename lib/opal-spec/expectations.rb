@@ -34,6 +34,10 @@ module OpalSpec
       OpalSpec::BeFalseMatcher.new false
     end
 
+    def eq(expected)
+      OpalSpec::EqlMatcher.new expected
+    end
+
     def equal expected
       OpalSpec::EqualMatcher.new expected
     end

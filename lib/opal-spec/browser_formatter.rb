@@ -63,6 +63,7 @@ module OpalSpec
 
         var summary_element = document.createElement('p');
         summary_element.className = 'summary';
+        summary_element.innerHTML = "Running...";
 
         var groups_element = document.createElement('ul');
         groups_element.className = 'example_groups';
@@ -109,7 +110,7 @@ module OpalSpec
 
         var description = document.createElement('span');
         description.className = 'group_description';
-        description.innerHTML = #{group.description};
+        description.innerHTML = #{group.description.to_s};
         group_element.appendChild(description);
 
         var example_list = document.createElement('ul');
