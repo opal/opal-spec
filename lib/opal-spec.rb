@@ -1,10 +1,5 @@
-require 'opal-spec/example'
-require 'opal-spec/example_group'
-require 'opal-spec/matchers'
-require 'opal-spec/runner'
-require 'opal-spec/scratch_pad'
-require 'opal-spec/expectations'
-require 'opal-spec/browser_formatter'
-require 'opal-spec/phantom_formatter'
-require 'opal-spec/kernel'
+require 'opal'
 require 'opal-spec/version'
+
+# Just register our opal code path with opal build tools
+Opal.append_path File.join(File.dirname(__FILE__), 'assets', 'javascripts')

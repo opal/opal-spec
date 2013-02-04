@@ -1,3 +1,5 @@
+#= require opal-spec
+
 @passed = 0
 @failures = []
 
