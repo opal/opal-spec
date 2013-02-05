@@ -31,7 +31,7 @@ The best place to do this is inside `spec/spec_helper.rb`, and with a
 simple call:
 
 ```ruby
-OpalSpec::Runner.autorun
+Opal::Spec::Runner.autorun
 ```
 
 ###  Async examples
@@ -58,8 +58,8 @@ result, you also need to use a `run_async` call inside some future handler:
 ```ruby
 async 'HTTP requests should work' do
   HTTP.get('users/1.json') do |response|
-    run\_async {
-      response.ok?.should be\_true
+    run_async {
+      response.ok?.should be_true
     }
   end
 end

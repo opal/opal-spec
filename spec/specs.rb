@@ -71,6 +71,6 @@ describe 'Another group' do
   end
 end
 
-OpalSpec::Runner.autorun
+Opal::Spec::Runner.autorun
 
 puts "Assertions: #{@passed + @failures.length}, Passed: #{@passed}, Failures: #{@failures.length}"
