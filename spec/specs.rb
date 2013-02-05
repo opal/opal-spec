@@ -1,3 +1,4 @@
+#= require opal
 #= require opal-spec
 
 @passed = 0
