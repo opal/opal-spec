@@ -1,5 +1,4 @@
-opal-spec
-=========
+# opal-spec
 
 opal-spec is a minimal spec lib for opal, inspired by RSpec and MSpec.
 It is designed to run on [opal](http://opalrb.org), and provides the
@@ -71,8 +70,9 @@ done with this test, so it can move on.
 Change Log
 ----------
 
-### Edge
+### 0.2.7
 
+* Can be built using asset pipeline/sprockets
 * BrowserFormatter is now default
 
 ### 0.0.3
