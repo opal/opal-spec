@@ -1,4 +1,5 @@
 require 'opal'
+require 'opal-spec/runner'
 require 'opal-spec/version'
 
 # Just register our opal code path with opal build tools
