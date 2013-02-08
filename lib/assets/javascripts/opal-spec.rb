@@ -1,1 +1,1 @@
-#= require opal/spec
+require 'opal/spec'

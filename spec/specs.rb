@@ -1,5 +1,5 @@
-#= require opal
-#= require opal-spec
+require 'opal'
+require 'opal-spec'
 
 @passed = 0
 @failures = []
