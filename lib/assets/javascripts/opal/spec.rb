@@ -11,6 +11,5 @@ require 'opal/spec/phantom_formatter'
 require 'opal/spec/kernel'
 
 module Opal
-  # Compatibility with older versions
-  Spec = ::Spec
+  Spec = ::Spec   # Compatibility with older versions
 end

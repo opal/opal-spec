@@ -7,12 +7,9 @@ module Opal
       include Rake::DSL if defined? Rake::DSL
 
       attr_accessor :name
-      attr_writer :runner_path, :url_path, :port
 
       def initialize(name = 'opal:spec')
         @name = name
-        yield self if block_given?
-
         define_tasks
       end
 
@@ -23,7 +20,7 @@ module Opal
           require 'webrick'
 
           server = fork do
-            Rack::Server.start(:app => Opal::Spec::Server.new, :Port => port,
+            Rack::Server.start(:app => Opal::Spec::Server.new(false), :Port => port,
               :Logger => WEBrick::Log.new("/dev/null"), :AccessLog => [])
           end
 
@@ -38,15 +35,15 @@ module Opal
       end
 
       def runner_path
-        @runner_path || File.join(VENDOR_PATH, 'spec_runner.js')
+        File.join(VENDOR_PATH, 'spec_runner.js')
       end
 
       def url_path
-        @url_path || "http://localhost:9999/"
+        "http://localhost:9999/"
       end
 
       def port
-        @port || 9999
+        9999
       end
     end
   end

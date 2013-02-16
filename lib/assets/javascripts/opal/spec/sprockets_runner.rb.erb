@@ -1,7 +1,5 @@
-/*
-  This file is used by Opal::Spec::Server to basically load all spec files that
-  can be found in the spec/ directory.
-*/
+# This file is used by Opal::Spec::Server to basically load all spec files that
+# can be found in the spec/ directory.
 
 <% require_asset 'opal' %>
 <% require_asset 'opal-spec' %>
@@ -9,3 +7,5 @@
 <% Dir.glob('spec/**/*.{rb,opal}').each do |s| %>
 <% require_asset s.sub(/^spec\//, '').sub(/\.(rb|opal)$/, '') %>
 <% end %>
+
+Spec::Runner.autorun
