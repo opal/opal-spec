@@ -1,4 +1,5 @@
 require 'opal/spec'
+require 'opal/spec/server'
 
 module Opal
   module Spec
@@ -22,7 +23,7 @@ module Opal
           require 'webrick'
 
           server = fork do
-            Rack::Server.start(:config => 'config.ru', :Port => port,
+            Rack::Server.start(:app => Opal::Spec::Server.new, :Port => port,
               :Logger => WEBrick::Log.new("/dev/null"), :AccessLog => [])
           end
 
@@ -37,7 +38,7 @@ module Opal
       end
 
       def runner_path
-        @runner_path || File.join(File.dirname(__FILE__), '..', '..', '..', 'vendor', 'runner.js')
+        @runner_path || File.join(VENDOR_PATH, 'spec_runner.js')
       end
 
       def url_path

@@ -10,6 +10,7 @@ require 'opal/spec/browser_formatter'
 require 'opal/spec/phantom_formatter'
 require 'opal/spec/kernel'
 
-# Compatibility with older versions
-module Opal; Spec = ::Spec; end
-OpalSpec = Spec
+module Opal
+  # Compatibility with older versions
+  Spec = ::Spec
+end

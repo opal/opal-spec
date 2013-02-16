@@ -1,6 +1,3 @@
-require 'opal'
-require 'opal-spec'
-
 @passed = 0
 @failures = []
 
@@ -54,16 +51,16 @@ describe 'Another group' do
     nil.should be_nil
   end
 
-  async 'this should pass (in 1 second time)' do
-    set_timeout(1000) do
+  async 'this should pass (in 0.1 second time)' do
+    set_timeout(100) do
       run_async {
         1.should == 1
       }
     end
   end
 
-  async 'this should fail (in 1 second time)' do
-    set_timeout(1000) do
+  async 'this should fail (in 0.1 second time)' do
+    set_timeout(100) do
       run_async {
         1.should == 5
       }
