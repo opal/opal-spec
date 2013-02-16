@@ -1,4 +1,5 @@
 require 'opal'
+
 require 'opal/spec/example'
 require 'opal/spec/example_group'
 require 'opal/spec/matchers'
@@ -10,4 +11,5 @@ require 'opal/spec/phantom_formatter'
 require 'opal/spec/kernel'
 
 # Compatibility with older versions
-OpalSpec = Opal::Spec
+module Opal; Spec = ::Spec; end
+OpalSpec = Spec
