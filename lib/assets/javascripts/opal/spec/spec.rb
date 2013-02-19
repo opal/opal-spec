@@ -41,6 +41,10 @@ module OpalTest
       end
     end
 
+    def self.subject(&block)
+      let(:subject, &block)
+    end
+
     def self.it_behaves_like(*objs)
     end
 
