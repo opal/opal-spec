@@ -1,4 +1,4 @@
-module Spec
+module OpalTest
   class Matcher
     def initialize(actual)
       @actual = actual

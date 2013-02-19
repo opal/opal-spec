@@ -1,4 +1,4 @@
-module Spec
+module OpalTest
   class PhantomFormatter
     def initialize
       @examples        = []

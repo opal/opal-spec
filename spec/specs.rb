@@ -1,21 +1,14 @@
-@passed = 0
-@failures = []
-
-def assert(value, message='Not true')
-  if value
-    @passed += 1
-  else
-    @failures << message
-  end
-end
-
-def assert_equal(got, expected, message='Not equal')
-  assert(got == expected, message)
-end
-
 describe 'Normal group' do
-  it 'this should fail' do
-    1.should == 2
+  it 'exceptions can be thrown' do
+    err = nil
+
+    begin
+      1.should == 2
+    rescue => e
+      err = e
+    end
+
+    raise "exception not thrown" unless err
   end
 end
 
@@ -23,10 +16,11 @@ describe "New eql" do
   it "these should both pass" do
     1.should eq(1)
     1.should_not eq(2)
+    raise "2323"
   end
 
   it "and this should fail" do
-    1.should eq(:adam)
+    lambda { 1.should eq(:adam) }.should raise_error(Exception)
   end
 end
 
@@ -39,10 +33,6 @@ end
 describe 'Another group' do
   it 'this should pass' do
     1.should == 1
-  end
-
-  it 'this should fail' do
-    raise "whatever error you like"
   end
 
   it 'this should pass' do
@@ -62,7 +52,7 @@ describe 'Another group' do
   async 'this should fail (in 0.1 second time)' do
     set_timeout(100) do
       run_async {
-        1.should == 5
+        lambda { 1.should == 5 }.should raise_error(Exception)
       }
     end
   end
@@ -83,6 +73,20 @@ describe "let" do
   end
 end
 
-Opal::Spec::Runner.autorun
+describe "before" do
+  before do
+    @foo = 100
+  end
 
-puts "Assertions: #{@passed + @failures.length}, Passed: #{@passed}, Failures: #{@failures.length}"
+  before do
+    @bar = 200
+  end
+
+  it "should be run before each group" do
+    @foo.should == 100
+  end
+
+  it "should run multiple before blocks" do
+    @bar.should == 200
+  end
+end
