@@ -45,7 +45,7 @@ module OpalTest
     end
 
     def self.setup_hooks
-      @parent ? [].concat(@parent.setup_hooks).concat(setup_hooks) : @setup_hooks
+      @parent ? [].concat(@parent.setup_hooks).concat(@setup_hooks) : @setup_hooks
     end
 
     def self.teardown_hooks
