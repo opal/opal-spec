@@ -38,17 +38,17 @@ Opal::Spec::Runner.autorun
 Examples can be async, and need to be defined as so:
 
 ```ruby
-  describe 'MyClass' do
-    # normal, sync example
-    it 'does something' do
-      # ...
-    end
-
-    # async example
-    async 'does something else too' do
-      # ...
-    end
+describe 'MyClass' do
+  # normal, sync example
+  it 'does something' do
+    #...
   end
+
+  # async example
+  async 'does something else too' do
+    #...
+  end
+end
 ```
 
 This just marks the example as being async. To actually handle the async
