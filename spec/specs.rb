@@ -68,6 +68,21 @@ describe 'Another group' do
   end
 end
 
+describe "let" do
+  $opal_spec_let_count = 0
+
+  let(:count) { $opal_spec_let_count = $opal_spec_let_count + 1 }
+
+  it "caches the method for the example" do
+    count.should eq(1)
+    count.should eq(1)
+  end
+
+  it "does not cache values between different examples" do
+    count.should eq(2)
+  end
+end
+
 Opal::Spec::Runner.autorun
 
 puts "Assertions: #{@passed + @failures.length}, Passed: #{@passed}, Failures: #{@failures.length}"

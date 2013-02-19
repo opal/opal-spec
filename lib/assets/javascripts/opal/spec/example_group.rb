@@ -20,12 +20,21 @@ module Spec
       @parent   = parent
       @examples = []
 
+      @base_class = Class.new(Example)
+
       @before_hooks = []
       @after_hooks  = []
     end
 
     def it(desc, &block)
-      @examples << Example.new(self, desc, block)
+      @examples << @base_class.new(self, desc, block)
+    end
+
+    def let(name, &block)
+      @base_class.define_method(name) do
+        @_memoized ||= {}
+        @_memoized.fetch(name) { |n| @_memoized[n] = instance_eval(&block) }
+      end
     end
 
     def async(desc, &block)
