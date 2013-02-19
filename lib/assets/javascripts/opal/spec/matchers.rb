@@ -62,7 +62,7 @@ module OpalTest
   class EqlMatcher < Matcher
     def match(expected)
       unless expected == @actual
-        failure "expected: #{expected.inspect}, got: #{@actual.inspect} (using ==)."
+        failure "expected: #{@actual.inspect}, got: #{expected.inspect} (using ==)."
       end
     end
 

@@ -16,7 +16,6 @@ describe "New eql" do
   it "these should both pass" do
     1.should eq(1)
     1.should_not eq(2)
-    raise "2323"
   end
 
   it "and this should fail" do
