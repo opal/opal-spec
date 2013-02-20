@@ -9,3 +9,7 @@ require 'opal/spec/expectations'
 require 'opal/spec/browser_formatter'
 require 'opal/spec/phantom_formatter'
 require 'opal/spec/kernel'
+
+module Opal
+  Spec = ::OpalTest # compatibility
+end
