@@ -34,6 +34,11 @@ module OpalTest
       end
     end
 
+    def self.pending(desc, &block)
+      @pending ||= []
+      @pending << [desc, block]
+    end
+
     def self.let(name, &block)
       define_method(name) do
         @_memoized ||= {}

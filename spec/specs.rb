@@ -89,3 +89,10 @@ describe "before" do
     @bar.should == 200
   end
 end
+
+describe "pending" do
+  pending "these tests are not run" do
+    raise "otherwise this error would be raised"
+  end
+end
+
