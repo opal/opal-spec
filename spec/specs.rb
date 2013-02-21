@@ -88,6 +88,18 @@ describe "before" do
   it "should run multiple before blocks" do
     @bar.should == 200
   end
+
+  describe "nested" do
+    before { @nested = 300 }
+
+    it "should inherit before blocks" do
+      @foo.should eq(100)
+    end
+
+    it "should also run nested before blocks" do
+      @nested.should eq(300)
+    end
+  end
 end
 
 describe "pending" do
@@ -95,4 +107,3 @@ describe "pending" do
     raise "otherwise this error would be raised"
   end
 end
-
