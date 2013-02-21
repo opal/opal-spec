@@ -1,14 +1,8 @@
+require 'opal/spec/matchers/base'
+require 'opal/spec/matchers/be_empty'
+require 'opal/spec/matchers/respond_to'
+
 module OpalTest
-  class Matcher
-    def initialize(actual)
-      @actual = actual
-    end
-
-    def failure(message)
-      raise Spec::ExpectationNotMetError, message
-    end
-  end
-
   class PositiveOperatorMatcher < Matcher
     def == expected
       if @actual == expected
@@ -98,18 +92,6 @@ module OpalTest
 
       if should_raise
         failure "expected #{@actual} to be raised, but nothing was."
-      end
-    end
-  end
-
-  class RespondToMatcher < Matcher
-    def initialize(expected)
-      @expected = expected
-    end
-
-    def match(actual)
-      unless actual.respond_to?(@expected)
-        failure "Expected #{actual.inspect} (#{actual.class}) to respond to #{@expected}"
       end
     end
   end

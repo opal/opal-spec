@@ -45,10 +45,6 @@ module OpalTest
     def raise_error expected
       RaiseErrorMatcher.new expected
     end
-
-    def respond_to(expected)
-      RespondToMatcher.new expected
-    end
   end
 end
 
