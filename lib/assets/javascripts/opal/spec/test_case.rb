@@ -1,5 +1,8 @@
+require 'opal/spec/assertions'
+
 module OpalTest
   class TestCase
+    include Assertions
 
     def self.test_cases
       @test_cases ||= []
