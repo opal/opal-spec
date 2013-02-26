@@ -107,3 +107,11 @@ describe "pending" do
     raise "otherwise this error would be raised"
   end
 end
+
+describe "A nested group" do
+  describe "inherits group names" do
+    it "examples should pass" do
+      1.should eq(1)
+    end
+  end
+end
