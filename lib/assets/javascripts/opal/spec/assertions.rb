@@ -7,8 +7,6 @@ module OpalTest
         raise ExpectationNotMetError, msg
       end
       true
-    end
-
-    
+    end    
   end
 end
