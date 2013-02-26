@@ -5,7 +5,7 @@ module Opal
     class RakeTask
       include Rake::DSL if defined? Rake::DSL
 
-      RUNNER = File.join(File.dirname(__FILE__), '..', '..', '..', 'vendor', 'spec_runner.js')
+      RUNNER = File.expand_path('../../../../vendor/spec_runner.js', __FILE__)
       PORT = 9999
       URL = "http://localhost:9999/"
 
