@@ -1,6 +1,6 @@
 module OpalTest
   class BrowserFormatter
-    CSS = <<-EOS
+    CSS = <<-CSS
 
       body {
         font-size: 14px;
@@ -48,7 +48,7 @@ module OpalTest
       .examples {
         list-style-type: none;
       }
-    EOS
+    CSS
 
     def initialize
       @examples        = []
