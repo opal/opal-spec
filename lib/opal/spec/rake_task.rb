@@ -1,30 +1,34 @@
 require 'opal/spec'
-require 'opal/spec/server'
 
 module Opal
   module Spec
     class RakeTask
       include Rake::DSL if defined? Rake::DSL
 
-      attr_accessor :name
+      RUNNER = File.join(File.dirname(__FILE__), '..', '..', '..', 'vendor', 'spec_runner.js')
+      PORT = 9999
+      URL = "http://localhost:9999/"
 
-      def initialize(name = 'opal:spec')
-        @name = name
-        define_tasks
-      end
-
-      def define_tasks
+      def initialize(name = 'opal:test', &block)
         desc "Run opal specs in phantomjs"
-        task @name do
+        task name do
           require 'rack'
           require 'webrick'
 
           server = fork do
-            Rack::Server.start(:app => Opal::Spec::Server.new(false), :Port => port,
-              :Logger => WEBrick::Log.new("/dev/null"), :AccessLog => [])
+            s = Opal::Server.new { |s|
+              s.main = 'opal/spec/sprockets_runner'
+              s.append_path 'spec'
+              s.debug = false
+
+              block.call s if block
+            }
+
+            Rack::Server.start(:app => s, :Port => PORT, :AccessLog => [],
+              :Logger => WEBrick::Log.new("/dev/null"))
           end
 
-          system "phantomjs #{runner_path} \"#{url_path}\""
+          system "phantomjs #{RUNNER} \"#{URL}\""
           success = $?.success?
 
           Process.kill(:SIGINT, server)
@@ -32,18 +36,6 @@ module Opal
 
           exit 1 unless success
         end
-      end
-
-      def runner_path
-        File.join(VENDOR_PATH, 'spec_runner.js')
-      end
-
-      def url_path
-        "http://localhost:9999/"
-      end
-
-      def port
-        9999
       end
     end
   end

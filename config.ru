@@ -1,5 +1,8 @@
 require 'bundler'
 Bundler.require
 
-require 'opal/spec/server'
-run Opal::Spec::Server.new
+run Opal::Server.new { |s|
+  s.main = 'opal/spec/sprockets_runner'
+  s.append_path 'spec'
+  s.debug = false
+}

@@ -23,16 +23,6 @@ describe MyClass do
 end
 ```
 
-### Running specs
-
-Loading these specs in a browser won't just work. You need to run them.
-The best place to do this is inside `spec/spec_helper.rb`, and with a
-simple call:
-
-```ruby
-Opal::Spec::Runner.autorun
-```
-
 ###  Async examples
 
 Examples can be async, and need to be defined as so:
