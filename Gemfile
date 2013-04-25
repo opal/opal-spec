@@ -2,6 +2,5 @@ source :rubygems
 gemspec
 
 gem 'rake'
-#gem 'opal', '~> 0.3.40'
-gem 'opal', :path => '../opal'
+gem 'opal', :git => 'git://github.com/opal/opal.git'
 gem 'opal-sprockets'
