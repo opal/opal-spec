@@ -1,3 +1,8 @@
+## 0.2.15 2013-05-2
+
+*   Remove opal-sprockets dependency and use opal directly for sprockets
+    support.
+
 ## 0.2.13 2013-02-23
 
 *   Re-write Opal::Spec::Server to inherit from Opal::Server. Opal::Server is
