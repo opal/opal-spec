@@ -5,34 +5,35 @@ module OpalSpec
       @groups ||= []
     end
 
-    def self.inherited klass
-      Example.groups << klass
-      klass.instance_eval { @before_hooks = []; @after_hooks = [] }
-    end
-
     def self.stack
       @stack ||= []
     end
 
     def self.create(desc, block)
-      parent = Example.stack.last
+      stack = Example.stack
+      parent = stack.last
 
-      Class.new(parent || Example) do
+      group = Class.new(parent || Example) do
         @desc   = desc
         @parent = parent
+        @examples = []
+        @before_hooks = []
+        @after_hooks = []
       end
-    end
 
-    def self.to_s
-      "<OpalTest::Spec #{@desc.inspect}>"
+      Example.groups << group
+      stack << group
+      group.class_eval(&block)
+      stack.pop
+
+      group
     end
 
     def self.description
       @parent ? "#{@parent.description} #{@desc}" : @desc
     end
 
-    def self.it(desc, &block)
-      @examples ||= []
+    def self.it desc, &block
       @examples << [desc, block]
     end
 
@@ -43,10 +44,7 @@ module OpalSpec
       end
     end
 
-    def self.pending(desc, &block)
-      @pending ||= []
-      @pending << [desc, block]
-    end
+    def self.pending(*); end
 
     def self.let(name, &block)
       define_method(name) do
@@ -59,12 +57,10 @@ module OpalSpec
       let(:subject, &block)
     end
 
-    # type is ignored (is always :each)
     def self.before(type = nil, &block)
       @before_hooks << block
     end
 
-    # type is ignored (is always :each)
     def self.after(type = nil, &block)
       @after_hooks << block
     end
