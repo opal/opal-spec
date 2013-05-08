@@ -50,14 +50,11 @@ module OpalSpec
     end
 
     def finish_with_code(code)
-      %x{
-        if (typeof(phantom) !== 'undefined') {
-          return phantom.exit(code);
-        }
-        else {
-          window.OPAL_SPEC_CODE = code;
-        }
-      }
+      if Native.global.key? :phantom
+        Native.global.phantom.exit code
+      else
+        Native.global.OPAL_SPEC_CODE = code
+      end
     end
 
     def example_group_started group
