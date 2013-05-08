@@ -1,32 +1,16 @@
 module OpalSpec
   class Runner
     def self.in_browser?
-      %x{
-        if (typeof(window) !== 'undefined' && typeof(document) !== 'undefined') {
-          return true;
-        }
-
-        return false;
-      }
+      Native.global.key? :window and Native.global.key? :document
     end
 
     def self.in_phantom?
-      %x{
-        if (typeof(phantom) !== 'undefined' || typeof(OPAL_SPEC_PHANTOM) !== 'undefined') {
-          return true;
-        }
-
-        return false;
-      }
+      Native.global.key? :phantom or Native.global.key? :OPAL_SPEC_PHANTOM
     end
 
     def self.autorun
       if in_browser?
-        %x{
-          setTimeout(function() {
-            #{ Runner.new.run };
-          }, 0);
-        }
+        Native.global.setTimeout proc { Runner.new.run }, 0
       else
         Runner.new.run
       end
