@@ -1,4 +1,4 @@
-module OpalTest
+module OpalSpec
   class RespondToMatcher < Matcher
     def initialize(expected)
       @expected = expected
@@ -14,6 +14,6 @@ end
 
 class Object
   def respond_to(expected)
-    OpalTest::RespondToMatcher.new expected
+    OpalSpec::RespondToMatcher.new expected
   end
 end

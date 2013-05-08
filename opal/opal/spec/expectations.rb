@@ -1,4 +1,4 @@
-module OpalTest
+module OpalSpec
   class ExpectationNotMetError < StandardError; end
 
   module Expectations
@@ -49,5 +49,5 @@ module OpalTest
 end
 
 class Object
-  include OpalTest::Expectations
+  include OpalSpec::Expectations
 end

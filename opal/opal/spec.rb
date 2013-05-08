@@ -1,6 +1,5 @@
 require 'opal'
 
-require 'opal/spec/test_case'
 require 'opal/spec/spec'
 require 'opal/spec/matchers'
 require 'opal/spec/runner'
@@ -11,5 +10,5 @@ require 'opal/spec/phantom_formatter'
 require 'opal/spec/kernel'
 
 module Opal
-  Spec = ::OpalTest # compatibility
+  Spec = OpalSpec # compatibility
 end

@@ -2,7 +2,7 @@ require 'opal/spec/matchers/base'
 require 'opal/spec/matchers/be_empty'
 require 'opal/spec/matchers/respond_to'
 
-module OpalTest
+module OpalSpec
   class PositiveOperatorMatcher < Matcher
     def == expected
       if @actual == expected

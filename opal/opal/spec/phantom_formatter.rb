@@ -1,4 +1,4 @@
-module OpalTest
+module OpalSpec
   class PhantomFormatter
     def initialize
       @examples        = []
@@ -34,7 +34,7 @@ module OpalTest
 
           exception = example.exception
           case exception
-          when Spec::ExpectationNotMetError
+          when OpalSpec::ExpectationNotMetError
             output  = exception.message
           else
             output  = "#{exception.class.name}: #{exception.message}\n"
@@ -48,7 +48,7 @@ module OpalTest
         finish_with_code(1)
       end
     end
-      
+
     def finish_with_code(code)
       %x{
         if (typeof(phantom) !== 'undefined') {

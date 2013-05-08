@@ -1,3 +1,7 @@
+## edge
+
+*   Remove old TestCase code, and more to pure spec based testing.
+
 ## 0.2.15 2013-05-2
 
 *   Remove opal-sprockets dependency and use opal directly for sprockets

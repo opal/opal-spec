@@ -1,4 +1,4 @@
-module OpalTest
+module OpalSpec
   class BeEmptyMatcher < Matcher
     def match(actual)
       unless actual.empty?
@@ -10,6 +10,6 @@ end
 
 class Object
   def be_empty
-    OpalTest::BeEmptyMatcher.new
+    OpalSpec::BeEmptyMatcher.new
   end
 end

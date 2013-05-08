@@ -1,4 +1,4 @@
-module OpalTest
+module OpalSpec
   class Runner
     def self.in_browser?
       %x{
@@ -41,7 +41,7 @@ module OpalTest
     end
 
     def run
-      @groups = TestCase.test_cases.dup
+      @groups = Example.groups.dup
       @formatter.start
       run_next_group
     end

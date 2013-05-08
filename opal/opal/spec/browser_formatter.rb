@@ -1,4 +1,4 @@
-module OpalTest
+module OpalSpec
   class BrowserFormatter
     CSS = <<-CSS
 
