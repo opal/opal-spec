@@ -1,16 +1,16 @@
 module OpalSpec
   class Runner
     def self.in_browser?
-      Native.global.key? :window and Native.global.key? :document
+      $global.respond_to? :document
     end
 
     def self.in_phantom?
-      Native.global.key? :phantom or Native.global.key? :OPAL_SPEC_PHANTOM
+      $global[:phantom] or $global[:OPAL_SPEC_PHANTOM]
     end
 
     def self.autorun
       if in_browser?
-        Native.global.setTimeout proc { Runner.new.run }, 0
+        $global.setTimeout -> { Runner.new.run }, 0
       else
         Runner.new.run
       end

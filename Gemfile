@@ -2,4 +2,4 @@ source :rubygems
 gemspec
 
 gem 'rake'
-gem 'opal'
+gem 'opal', :github => 'opal/opal'

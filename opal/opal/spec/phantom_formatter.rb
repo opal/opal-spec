@@ -50,10 +50,10 @@ module OpalSpec
     end
 
     def finish_with_code(code)
-      if Native.global.key? :phantom
-        Native.global.phantom.exit code
+      if $global[:phantom]
+        $global[:phantom].exit code
       else
-        Native.global.OPAL_SPEC_CODE = code
+        $global.OPAL_SPEC_CODE = code
       end
     end
 
