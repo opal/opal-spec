@@ -1,6 +1,14 @@
 module OpalSpec
   class ExpectationNotMetError < StandardError; end
 
+  def self.matcher name, &block
+    klass = Class.new(Matcher, &block)
+
+    Object.define_method(name) do |*args|
+      klass.new(*args)
+    end
+  end
+
   module Expectations
     def should matcher = nil
       if matcher

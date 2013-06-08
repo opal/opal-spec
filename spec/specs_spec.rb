@@ -115,3 +115,25 @@ describe "A nested group" do
     end
   end
 end
+
+OpalSpec.matcher :custom_matcher do
+  def match expected
+    unless expected == 42
+      failure "foo"
+    end
+  end
+end
+
+describe "Custom Matchers" do
+  it "is defined in spec scope" do
+    respond_to?(:custom_matcher).should be_true
+  end
+
+  it "passes the expected value to the matcher" do
+    42.should custom_matcher
+  end
+
+  it "can raise error when not maching expectation" do
+    lambda { 43.should custom_matcher }.should raise_error(Exception)
+  end
+end
