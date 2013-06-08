@@ -1,3 +1,13 @@
+describe "PositiveOperatorMatcher" do
+  it "matches should operators" do
+    1.should == 1
+  end
+
+  it "matches negative operators" do
+    1.should_not == 2
+  end
+end
+
 describe 'Normal group' do
   it 'exceptions can be thrown' do
     err = nil

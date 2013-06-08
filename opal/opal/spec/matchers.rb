@@ -32,20 +32,30 @@ module OpalSpec
   end
 
   class PositiveOperatorMatcher < Matcher
-    def == expected
-      if @expected == expected
-        true
-      else
-        failure "expected: #{expected.inspect}, got: #{@expected.inspect} (using ==)."
+    def == actual
+      @actual = actual
+
+      unless expected == actual
+        raise Opal::Spec::ExpectationNotMetError, failure_message_for_should
       end
+    end
+
+    def failure_message_for_should
+      "expected #{expected.inspect}, but got: #{actual.inspect} (using ==)."
     end
   end
 
   class NegativeOperatorMatcher < Matcher
-    def == expected
-      if @expected == expected
-        failure "expected: #{expected.inspect} not to be #{@expected.inspect} (using ==)."
+    def == actual
+      @actual = actual
+
+      if expected == actual
+        raise Opal::Spec::ExpectationNotMetError, failure_message_for_should_not
       end
+    end
+
+    def failure_message_for_should_not
+      "expected #{expected.inspect} not to be: #{actual.inspect} (using ==)."
     end
   end
 end
