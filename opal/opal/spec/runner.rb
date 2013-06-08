@@ -1,7 +1,7 @@
 module OpalSpec
   class Runner
     def self.in_browser?
-      $global.respond_to? :document
+      $global[:document]
     end
 
     def self.in_phantom?
