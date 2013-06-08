@@ -1,5 +1,6 @@
 module OpalSpec
   class Example
+    include Expectations
 
     def self.groups
       @groups ||= []

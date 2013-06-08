@@ -4,7 +4,7 @@ describe 'Normal group' do
 
     begin
       1.should == 2
-    rescue => e
+    rescue Exception => e
       err = e
     end
 
@@ -136,4 +136,4 @@ describe "Custom Matchers" do
   it "can raise error when not maching expectation" do
     lambda { 43.should custom_matcher }.should raise_error(Exception)
   end
-end
+end if false

@@ -1,97 +1,50 @@
-require 'opal/spec/matchers/base'
-require 'opal/spec/matchers/be_empty'
-require 'opal/spec/matchers/respond_to'
-
 module OpalSpec
+  class Matcher
+    attr_reader :actual, :expected
+
+    def initialize expected = nil
+      @expected = expected
+    end
+
+    def positive_match? actual
+      @actual = actual
+
+      unless match expected, actual
+        raise OpalSpec::ExpectationNotMetError, failure_message_for_should
+      end
+    end
+
+    def negative_match? actual
+      @actual = actual
+
+      if match expected, actual
+        raise OpalSpec::ExpectationNotMetError, failure_message_for_should_not
+      end
+    end
+
+    def failure_message_for_should
+      "expected: #{expected.inspect}, actual: #{actual.inspect} (#{matcher_name}) [should]."
+    end
+
+    def failure_message_for_should_not
+      "expected: #{expected.inspect}, actual: #{actual.inspect} (#{matcher_name}) [should_not]."
+    end
+  end
+
   class PositiveOperatorMatcher < Matcher
     def == expected
-      if @actual == expected
+      if @expected == expected
         true
       else
-        failure "expected: #{expected.inspect}, got: #{@actual.inspect} (using ==)."
+        failure "expected: #{expected.inspect}, got: #{@expected.inspect} (using ==)."
       end
     end
   end
 
   class NegativeOperatorMatcher < Matcher
     def == expected
-      if @actual == expected
-        failure "expected: #{expected.inspect} not to be #{@actual.inspect} (using ==)."
-      end
-    end
-  end
-
-  class BeKindOfMatcher < Matcher
-    def match expected
-      unless expected.kind_of? @actual
-        failure "expected #{expected.inspect} to be a kind of #{@actual.name}, not #{expected.class.name}."
-      end
-    end
-  end
-
-  class BeNilMatcher < Matcher
-    def match expected
-      unless expected.nil?
-        failure "expected #{expected.inspect} to be nil."
-      end
-    end
-  end
-
-  class BeTrueMatcher < Matcher
-    def match expected
-      unless expected == true
-        failure "expected #{expected.inspect} to be true."
-      end
-    end
-  end
-
-  class BeFalseMatcher < Matcher
-    def match expected
-      unless expected == false
-        failure "expected #{expected.inspect} to be false."
-      end
-    end
-  end
-
-  class EqlMatcher < Matcher
-    def match(expected)
-      unless expected == @actual
-        failure "expected: #{@actual.inspect}, got: #{expected.inspect} (using ==)."
-      end
-    end
-
-    def not_match(expected)
-      if expected.equal? @actual
-        failure "expected: #{expected.inspect} not to be #{@actual.inspect} (using ==)."
-      end
-    end
-  end
-
-  class EqualMatcher < Matcher
-    def match expected
-      unless expected.equal? @actual
-        failure "expected #{@actual.inspect} to be the same as #{expected.inspect}."
-      end
-    end
-
-    def not_match expected
-      if expected.equal? @actual
-        failure "expected #{@actual.inspect} not to be equal to #{expected.inspect}."
-      end
-    end
-  end
-
-  class RaiseErrorMatcher < Matcher
-    def match block
-      should_raise = false
-      begin
-        block.call
-        should_raise = true
-      rescue => e
-      end
-
-      if should_raise
-        failure "expected #{@actual} to be raised, but nothing was."
+      if @expected == expected
+        failure "expected: #{expected.inspect} not to be #{@expected.inspect} (using ==)."
       end
     end
   end
