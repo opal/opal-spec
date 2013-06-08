@@ -47,11 +47,11 @@ module OpalSpec
 
   matcher :be_kind_of do
     def match expected, actual
-      expected.kind_of? actual
+      actual.kind_of? expected
     end
 
     def failure_message_for_should
-      "expected #{expected.inspect} to be a kind of #{actual.name}, not #{expected.class.name}."
+      "expected #{actual.inspect} to be a kind of #{expected.name}, not #{actual.class.name}."
     end
   end
 
