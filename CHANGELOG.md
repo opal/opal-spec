@@ -1,4 +1,6 @@
-## edge
+## 0.2.16 2013-06-09
+
+*   Define matchers using OpalSpec.matcher() method.
 
 *   Remove old TestCase code, and more to pure spec based testing.
 
