@@ -65,9 +65,9 @@ module OpalSpec
       @groups_element = $global.document.createElement 'ul'
       @groups_element.className = 'example_groups'
 
-      target = $global.document.getElementById 'opal-spec-output'
+      #target = $global.document.getElementById 'opal-spec-output'
 
-      target ||= $global.document.body
+      target = $global.document.body unless target
 
       target.appendChild @summary_element
       target.appendChild @groups_element
