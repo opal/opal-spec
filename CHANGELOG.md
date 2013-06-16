@@ -1,3 +1,7 @@
+## 0.2.17 2013-06-16
+
+*   Use opal-sprockets as server for specs.
+
 ## 0.2.16 2013-06-09
 
 *   Define matchers using OpalSpec.matcher() method.

@@ -1,4 +1,5 @@
 require 'opal/spec'
+require 'opal-sprockets'
 
 module Opal
   module Spec
@@ -16,7 +17,7 @@ module Opal
           require 'webrick'
 
           server = fork do
-            s = Opal::Server.new { |s|
+            app = Opal::Server.new { |s|
               s.main = 'opal/spec/sprockets_runner'
               s.append_path 'spec'
               s.debug = false
@@ -24,7 +25,7 @@ module Opal
               block.call s if block
             }
 
-            Rack::Server.start(:app => s, :Port => PORT, :AccessLog => [],
+            Rack::Server.start(:app => app, :Port => PORT, :AccessLog => [],
               :Logger => WEBrick::Log.new("/dev/null"))
           end
 
