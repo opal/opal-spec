@@ -2,15 +2,17 @@ module OpalSpec
   class Runner
     def self.in_browser?
       $global[:document]
+      `typeof(document) !== 'undefined'`
     end
 
     def self.in_phantom?
-      $global[:phantom] or $global[:OPAL_SPEC_PHANTOM]
+      `typeof(phantom) !== 'undefined' || typeof(OPAL_SPEC_PHANTOM) !== 'undefined'`
     end
 
     def self.autorun
       if in_browser?
         $global.setTimeout -> { Runner.new.run }, 0
+        `setTimeout(function() { #{ Runner.new.run } }, 0)`
       else
         Runner.new.run
       end

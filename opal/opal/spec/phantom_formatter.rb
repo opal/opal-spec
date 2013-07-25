@@ -50,11 +50,14 @@ module OpalSpec
     end
 
     def finish_with_code(code)
-      if $global[:phantom]
-        $global[:phantom].exit code
-      else
-        $global.OPAL_SPEC_CODE = code
-      end
+      %x{
+        if (typeof(phantom) !== "undefined") {
+          phantom.exit(code);
+        }
+        else {
+          Opal.global.OPAL_SPEC_CODE = code;
+        }
+      }
     end
 
     def example_group_started group

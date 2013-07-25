@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files          = `git ls-files`.split("\n")
   s.require_paths  = ['lib']
 
-  s.add_dependency 'opal', '~> 0.4.1'
+  s.add_dependency 'opal', '~> 0.4.3'
   s.add_dependency 'opal-sprockets', '~> 0.1.0'
 
   s.add_development_dependency 'rake'
