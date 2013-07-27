@@ -41,7 +41,7 @@ module OpalSpec
     end
 
     def failure_message_for_should
-      "expected #{expected.inspect}, but got: #{actual.inspect} (using ==)."
+      "expected #{actual.inspect}, but got: #{expected.inspect} (using ==)."
     end
   end
 
@@ -55,7 +55,7 @@ module OpalSpec
     end
 
     def failure_message_for_should_not
-      "expected #{expected.inspect} not to be: #{actual.inspect} (using ==)."
+      "expected #{actual.inspect} not to be: #{expected.inspect} (using ==)."
     end
   end
 end
