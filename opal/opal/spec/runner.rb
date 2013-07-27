@@ -11,7 +11,6 @@ module OpalSpec
 
     def self.autorun
       if in_browser?
-        $global.setTimeout -> { Runner.new.run }, 0
         `setTimeout(function() { #{ Runner.new.run } }, 0)`
       else
         Runner.new.run
