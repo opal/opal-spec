@@ -70,6 +70,10 @@ module OpalSpec
         `#{ @element }.innerHTML = html`
       end
 
+      def text=(text)
+        self.html = text.gsub(/</, '&lt').gsub(/>/, '&gt')
+      end
+
       def type=(type)
         `#{ @element }.type = type`
       end
@@ -108,7 +112,7 @@ module OpalSpec
 
       @summary_element = Node.create 'p'
       @summary_element.class_name = "summary"
-      @summary_element.html = "Runner..."
+      @summary_element.text = "Runner..."
 
       @groups_element = Node.create("ul")
       @groups_element.class_name = "example_groups"
@@ -129,7 +133,7 @@ module OpalSpec
       time = Time.now.to_f - @start_time
       text = "\n#{example_count} examples, #{@failed_examples.size} failures (time taken: #{time})"
 
-      @summary_element.html = text
+      @summary_element.text = text
     end
 
     def example_group_started group
@@ -140,7 +144,7 @@ module OpalSpec
 
       description = Node.create("span")
       description.class_name = "group_description"
-      description.html = group.description.to_s
+      description.text = group.description.to_s
       @group_element.append description
 
       @example_list = Node.create "ul"
@@ -182,11 +186,11 @@ module OpalSpec
 
       description = Node.create "span"
       description.class_name = "example_description"
-      description.html = example.description.to_s
+      description.text = example.description.to_s
 
       exception = Node.create "pre"
       exception.class_name = "exception"
-      exception.html = output
+      exception.text = output
 
       wrapper.append description
       wrapper.append exception
@@ -201,7 +205,7 @@ module OpalSpec
 
       description = Node.create "span"
       description.class_name = "example_description"
-      description.html = example.description.to_s
+      description.text = example.description.to_s
 
       wrapper.append description
       @example_list.append wrapper
