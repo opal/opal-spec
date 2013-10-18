@@ -1,0 +1,2 @@
+class Stack < Array
+end
