@@ -23,6 +23,31 @@ describe MyClass do
 end
 ```
 
+### Supported notations
+
+````
+* describe "foo" do ... end
+* it "should foo" do ... end
+* before do ... end
+* after do ... end
+* let(:foo) { ... }
+* async  # see below
+
+* obj.should == other
+* obj.should != other
+* obj.should be_nil
+* obj.should be_true
+* obj.should be_false
+* obj.should be_kind_of(klass)
+* obj.should eq(other)  # compare with :==
+* obj.should equal(other)  # compare with :equal?
+* obj.should raise_error
+* obj.should be_empty
+* obj.should respond_to(method)
+
+* obj.should_not xxx
+```
+
 ###  Async examples
 
 Examples can be async, and need to be defined as so:
