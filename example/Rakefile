@@ -1,0 +1,10 @@
+require 'bundler'
+Bundler.require
+
+require 'opal'
+# Help Opal to find your library in ./opal/
+Opal.append_path File.expand_path("opal", File.dirname("__FILE__"))
+
+require 'opal/spec/rake_task'
+Opal::Spec::RakeTask.new(:default)
+
