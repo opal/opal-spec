@@ -1,3 +1,8 @@
+# Deprecated
+
+**`opal-spec` is no longer maintained, see [opal-rspec](http://github.com/opal/opal-rspec)
+instead.**
+
 # opal-spec
 
 opal-spec is a minimal spec lib for opal, inspired by RSpec and MSpec.
