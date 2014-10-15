@@ -1,7 +1,6 @@
 module OpalSpec
   class Runner
     def self.in_browser?
-      $global[:document]
       `typeof(document) !== 'undefined'`
     end
 

@@ -1,5 +1,4 @@
 require 'opal/spec'
-require 'opal-sprockets'
 
 module Opal
   module Spec

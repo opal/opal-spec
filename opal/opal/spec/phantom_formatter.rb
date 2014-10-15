@@ -6,11 +6,11 @@ module OpalSpec
     end
 
     def log_green(str)
-      `console.log('\\033[32m' + str + '\\033[0m')`
+      `console.log('\033[32m' + str + '\033[0m')`
     end
 
     def log_red(str)
-      `console.log('\\033[31m' + str + '\\033[0m')`
+      `console.log('\033[31m' + str + '\033[0m')`
     end
 
     def log(str)

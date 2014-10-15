@@ -181,5 +181,23 @@ module OpalSpec
       `setTimeout(#{block}, #{duration})`
       self
     end
+
+    def expect(value)
+      ExpectTarget.new(value)
+    end
+  end
+
+  class ExpectTarget
+    def initialize(value)
+      @value = value
+    end
+
+    def to(*args)
+      @value.should(*args)
+    end
+
+    def to_not(*args)
+      @value.should_not(*args)
+    end
   end
 end

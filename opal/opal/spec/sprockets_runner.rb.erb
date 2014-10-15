@@ -1,11 +1,11 @@
 # This file is used by Opal::Server to basically load all spec files that
 # can be found in the spec/ directory.
 
-<% require_asset 'opal' %>
-<% require_asset 'opal-spec' %>
+require 'opal'
+require 'opal-spec'
 
 <% Dir.glob('spec/**/*_spec.{rb,opal}').each do |s| %>
-<% require_asset s.sub(/^spec\//, '').sub(/\.(rb|opal)$/, '') %>
+require <%= s.sub(/^spec\//, '').sub(/\.(rb|opal)$/, '').inspect %>
 <% end %>
 
 OpalSpec::Runner.autorun
