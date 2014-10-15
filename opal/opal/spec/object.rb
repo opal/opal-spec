@@ -1,9 +1,9 @@
-class Object
-  def describe desc, &block
-    OpalSpec::Example.create desc, block
-  end
+def self.describe desc, &block
+  OpalSpec::Example.create(desc, block)
+end
 
-  def should matcher = nil
+class Object
+  def should(matcher = nil)
     if matcher
       matcher.positive_match? self
     else
@@ -11,7 +11,7 @@ class Object
     end
   end
 
-  def should_not matcher = nil
+  def should_not(matcher = nil)
     if matcher
       matcher.negative_match? self
     else

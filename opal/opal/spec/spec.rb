@@ -30,11 +30,15 @@ module OpalSpec
       group
     end
 
+    def self.describe(desc, &block)
+      OpalSpec::Example.create(desc, block)
+    end
+
     def self.description
       @parent ? "#{@parent.description} #{@desc}" : @desc
     end
 
-    def self.it desc, &block
+    def self.it(desc, &block)
       @examples << [desc, block]
     end
 
@@ -66,7 +70,7 @@ module OpalSpec
       @after_hooks << block
     end
 
-    def self.run runner
+    def self.run(runner)
       @runner = runner
       @runner.example_group_started self
 
@@ -82,16 +86,16 @@ module OpalSpec
       end
     end
 
-    def self.example_started example
+    def self.example_started(example)
       @runner.example_started example
     end
 
-    def self.example_passed example
+    def self.example_passed(example)
       @runner.example_passed example
       run_next_example
     end
 
-    def self.example_failed example
+    def self.example_failed(example)
       @runner.example_failed example
       run_next_example
     end
@@ -106,7 +110,7 @@ module OpalSpec
 
     attr_reader :example_group, :exception
 
-    def initialize info
+    def initialize(info)
       @description = info[0]
       @__block__ = info[1]
       @example_group = self.class
@@ -120,7 +124,7 @@ module OpalSpec
       @asynchronous = true
     end
 
-    def run runner
+    def run(runner)
       @runner = runner
       begin
         @example_group.example_started self
@@ -165,7 +169,7 @@ module OpalSpec
       end
     end
 
-    def run_async(&block)
+    def async(&block)
       begin
         block.call
       rescue => e
@@ -177,8 +181,8 @@ module OpalSpec
       finish_running
     end
 
-    def set_timeout(duration, &block)
-      `setTimeout(#{block}, #{duration})`
+    def delay(duration, &block)
+      `setTimeout(#{block}, #{duration * 1000})`
       self
     end
 
@@ -192,8 +196,12 @@ module OpalSpec
       @value = value
     end
 
-    def to(*args)
-      @value.should(*args)
+    def to(matcher = nil, &block)
+      unless matcher
+        raise ArgumentError, 'The expect syntax requires a matcher'
+      end
+
+      @value.should(matcher)
     end
 
     def to_not(*args)

@@ -84,25 +84,26 @@ module OpalSpec
   end
 
   matcher :raise_error do
-    def initialize(&block)
-      @block = block
-    end
-
     def match expected, actual
+      @expected = expected || Exception
       ok = true
 
       begin
-        @block.call
+        actual.call
         ok = false
       rescue => e
-        @error = e
+        @expected = @error = e
       end
 
       ok
     end
 
     def failure_message_for_should
-      "expected #{actual} to be raised, but nothing was."
+      "expected #@expected to be raised, but nothing was."
+    end
+
+    def failure_message_for_should_not
+      "did not expect an error, but #{@expected.class} was raised"
     end
   end
 

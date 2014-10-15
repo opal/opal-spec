@@ -49,22 +49,6 @@ describe 'Another group' do
     false.should be_false
     nil.should be_nil
   end
-
-  async 'this should pass (in 0.1 second time)' do
-    set_timeout(100) do
-      run_async {
-        1.should == 1
-      }
-    end
-  end
-
-  async 'this should fail (in 0.1 second time)' do
-    set_timeout(100) do
-      run_async {
-        lambda { 1.should == 5 }.should raise_error(Exception)
-      }
-    end
-  end
 end
 
 describe "let" do
