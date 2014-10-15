@@ -1,61 +1,79 @@
 module OpalSpec
   class Matcher
-    attr_reader :actual, :expected
-
-    def initialize expected = nil
-      @expected = expected
+    def initialize(*args)
+      @args = args
     end
 
-    def positive_match? actual
-      @actual = actual
+    def inspect
+      "#<#{matcher_name} matcher>"
+    end
 
-      unless match expected, actual
-        raise OpalSpec::ExpectationNotMetError, failure_message_for_should
+    def positive_match?(subject)
+      @subject = subject
+
+      unless match?
+        raise OpalSpec::ExpectationNotMetError, failure_message
       end
     end
 
-    def negative_match? actual
-      @actual = actual
+    def negative_match?(subject)
+      @subject = subject
 
-      if match expected, actual
-        raise OpalSpec::ExpectationNotMetError, failure_message_for_should_not
+      if match?
+        raise OpalSpec::ExpectationNotMetError, negative_failure_message
       end
     end
 
-    def failure_message_for_should
-      "expected: #{expected.inspect}, actual: #{actual.inspect} (#{matcher_name}) [should]."
+    def failure_message
+      "expected #{@args.first.inspect}, actual: #{@subject} [#{matcher_name}]"
     end
 
-    def failure_message_for_should_not
-      "expected: #{expected.inspect}, actual: #{actual.inspect} (#{matcher_name}) [should_not]."
+    def negative_failure_message
+      "expected #{@args.first.inspect} to not match #{@subject} [#{matcher_name}]"
     end
   end
 
   class PositiveOperatorMatcher < Matcher
-    def == actual
+    def initialize(subject)
+      @subject = subject
+    end
+
+    def matcher_name
+      "positive operator"
+    end
+
+    def ==(actual)
       @actual = actual
 
-      unless expected == actual
-        raise Opal::Spec::ExpectationNotMetError, failure_message_for_should
+      unless @subject == @actual
+        raise Opal::Spec::ExpectationNotMetError, failure_message
       end
     end
 
-    def failure_message_for_should
-      "expected #{actual.inspect}, but got: #{expected.inspect} (using ==)."
+    def failure_message
+      "expected #{@actual.inspect}, but got: #{@subject.inspect} (using ==)."
     end
   end
 
   class NegativeOperatorMatcher < Matcher
-    def == actual
+    def initialize(subject)
+      @subject = subject
+    end
+
+    def matcher_name
+      "negative operator"
+    end
+
+    def ==(actual)
       @actual = actual
 
-      if expected == actual
-        raise Opal::Spec::ExpectationNotMetError, failure_message_for_should_not
+      if @subject == @actual
+        raise Opal::Spec::ExpectationNotMetError, negative_failure_message
       end
     end
 
-    def failure_message_for_should_not
-      "expected #{actual.inspect} not to be: #{expected.inspect} (using ==)."
+    def negative_failure_message
+      "expected #{@actual.inspect} not to be: #{@subject.inspect} (using ==)."
     end
   end
 end

@@ -11,5 +11,9 @@ describe '#expect' do
     proc {
       expect(2).to == 2
     }.should raise_error
+
+    proc {
+      expect(2).to_not == 2
+    }.should raise_error
   end
 end

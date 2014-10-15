@@ -1,3 +1,5 @@
+require 'opal/spec/expect'
+
 module OpalSpec
   class Example
     include Expectations
@@ -187,25 +189,7 @@ module OpalSpec
     end
 
     def expect(value)
-      ExpectTarget.new(value)
-    end
-  end
-
-  class ExpectTarget
-    def initialize(value)
-      @value = value
-    end
-
-    def to(matcher = nil, &block)
-      unless matcher
-        raise ArgumentError, 'The expect syntax requires a matcher'
-      end
-
-      @value.should(matcher)
-    end
-
-    def to_not(*args)
-      @value.should_not(*args)
+      ExpectationTarget.new(value)
     end
   end
 end

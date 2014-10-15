@@ -1,14 +1,13 @@
 module OpalSpec
   class ExpectationNotMetError < StandardError; end
 
-  module Expectations; end
+  module Expectations
+  end
 
-  def self.matcher name, &block
+  def self.matcher(name, &block)
     klass = Class.new(Matcher, &block)
 
-    klass.define_method(:matcher_name) do
-      name
-    end
+    klass.define_method(:matcher_name) { name }
 
     Expectations.define_method(name) do |*args|
       klass.new(*args)
@@ -16,56 +15,68 @@ module OpalSpec
   end
 
   matcher :be_nil do
-    def match expected, actual
-      actual.nil?
+    def match?
+      @subject.nil?
     end
 
-    def failure_message_for_should
-      "expected #{expected.inspect} to be nil."
+    def failure_message
+      "expected #{@subject.inspect} to be nil."
+    end
+
+    def negative_failure_message
+      "expected #{@subject.inspect} to not be nil."
     end
   end
 
   matcher :be_true do
-    def match expected, actual
-      actual == true
+    def match?
+      @subject == true
     end
 
-    def failure_message_for_should
-      "expected #{actual.inspect} to be true."
+    def failure_message
+      "expected #{@subject.inspect} to be true."
     end
   end
 
   matcher :be_false do
-    def match expected, actual
-      actual == false
+    def match?
+      @subject == false
     end
 
-    def failure_message_for_should
-      "expected #{actual.inspect} to be false."
+    def failure_message
+      "expected #{@subject.inspect} to be false."
     end
   end
 
   matcher :be_kind_of do
-    def match expected, actual
-      actual.kind_of? expected
+    def initialize(klass)
+      @klass = klass
     end
 
-    def failure_message_for_should
-      "expected #{actual.inspect} to be a kind of #{expected.name}, not #{actual.class.name}."
+    def match?
+      @subject.kind_of?(@klass)
+    end
+
+    def failure_message
+      "expected #{@subject.inspect} to be a kind of #{@klass.name}, not #{@subject.class.name}."
     end
   end
 
   matcher :eq do
-    def match expected, actual
-      expected == actual
+    def initialize(expected)
+      @expected = expected
     end
 
-    def failure_message_for_should
-      "expected #{expected.inspect}, got: #{actual.inspect} (using ==)."
+    def match?
+      @subject == @expected
     end
 
-    def failure_message_for_should_not
-      "expected #{expected.inspect}, not to be: #{actual.inspect} (using ==)."
+    def failure_message
+      "expected #{@expected.inspect}, got: #{@subject.inspect} (using ==)."
+    end
+
+    def negative_failure_message
+      "expected #{@expected.inspect}, not to be: #{@subject.inspect} (using ==)."
     end
   end
 
@@ -84,46 +95,54 @@ module OpalSpec
   end
 
   matcher :raise_error do
-    def match expected, actual
-      @expected = expected || Exception
-      ok = true
+    def initialize(klass)
+      @klass = klass
+    end
+
+    def match?
+      @klass ||= Exception
+      passed = true
 
       begin
-        actual.call
-        ok = false
+        @subject.call
+        passed = false
       rescue => e
-        @expected = @error = e
+        @error = e
       end
 
-      ok
+      passed
     end
 
-    def failure_message_for_should
-      "expected #@expected to be raised, but nothing was."
+    def failure_message
+      "expected #@klass to be raised, but nothing was."
     end
 
-    def failure_message_for_should_not
-      "did not expect an error, but #{@expected.class} was raised"
+    def negative_failure_message
+      "did not expect an error, but #{@error.class} was raised"
     end
   end
 
   matcher :be_empty do
-    def match expected, actual
-      actual.empty?
+    def match?
+      @subject.empty?
     end
 
-    def failure_message_for_should
-      "expected #{actual.inspect} to be empty"
+    def failure_message
+      "expected #{@subject.inspect} to be empty"
     end
   end
 
   matcher :respond_to do
-    def match expected, actual
-      actual.respond_to? expected
+    def initialize(method_name)
+      @method_name = method_name
     end
 
-    def failure_message_for_should
-      "expected #{actual.inspect} (#{actual.class}) to respond to #{expected}."
+    def match?
+      @subject.respond_to? @method_name
+    end
+
+    def failure_message
+      "expected #{@subject.inspect} (#{@subject.class}) to respond to #{@method_name}."
     end
   end
 end
